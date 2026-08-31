@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atlas Procurement</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   Atlas Procurement — design tokens
+   Theme: a precision instrument for mapping spend.
+   ============================================================ */
+:root{
+  --abyss:#0B1F2A;        /* deep petrol rail            */
+  --abyss-2:#123040;      /* raised petrol               */
+  --abyss-line:#1E4155;   /* petrol hairline             */
+  --canvas:#F5F7FA;       /* cool paper canvas           */
+  --surface:#FFFFFF;      /* cards                       */
+  --surface-2:#EEF2F6;    /* insets                      */
+  --ink:#12212E;          /* primary text                */
+  --ink-2:#54677A;        /* muted text                  */
+  --ink-3:#8494A3;        /* faint text                  */
+  --hair:#E3E8EF;         /* hairline on light           */
+  --brass:#C6912E;        /* signature accent            */
+  --brass-soft:#F3E6CB;   /* brass wash                  */
+  --teal:#2E8C8C;         /* data / positive-neutral     */
+  --green:#1F8A5B;        /* success                     */
+  --green-soft:#E1F1E9;
+  --amber:#C6912E;        /* warning (== brass)          */
+  --amber-soft:#F6ECD6;
+  --red:#C0492F;          /* danger                      */
+  --red-soft:#F7E3DE;
+  --blue:#2C6BB0;
+  --blue-soft:#E2ECF6;
+
+  --r-sm:8px; --r-md:12px; --r-lg:16px; --r-xl:22px;
+  --sh-1:0 1px 2px rgba(16,35,58,.06),0 1px 3px rgba(16,35,58,.04);
+  --sh-2:0 6px 16px rgba(16,35,58,.08),0 2px 6px rgba(16,35,58,.05);
+  --sh-3:0 24px 60px rgba(11,31,42,.20);
+  --rail-w:236px;
+  --font-ui:'Inter',system-ui,-apple-system,sans-serif;
+  --font-display:'Space Grotesk',var(--font-ui);
+  --font-mono:'Space Mono','SFMono-Regular',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{
+  font-family:var(--font-ui);
+  color:var(--ink);
+  background:var(--canvas);
+  -webkit-font-smoothing:antialiased;
+  font-size:14px;line-height:1.5;
+}
+button{font-family:inherit;cursor:pointer}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--brass-soft)}
+:focus-visible{outline:2px solid var(--brass);outline-offset:2px;border-radius:4px}
+
+.mono{font-family:var(--font-mono)}
+.eyebrow{
+  font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);
+}
+
+/* ---- amounts ---- */
+.amt{font-family:var(--font-display);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+
+/* ============================================================
+   Login
+   ============================================================ */
+#login{
+  position:fixed;inset:0;display:grid;grid-template-columns:1.05fr .95fr;
+  background:var(--canvas);z-index:50;
+}
+#login .stage{
+  position:relative;background:
+    radial-gradient(120% 90% at 78% 12%,#12384a 0%,var(--abyss) 55%);
+  color:#EAF1F5;overflow:hidden;padding:56px;display:flex;flex-direction:column;
+}
+#login .stage .coords{
+  position:absolute;inset:0;opacity:.5;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+  background-size:34px 34px;
+  -webkit-mask-image:radial-gradient(120% 90% at 78% 12%,#000 30%,transparent 78%);
+          mask-image:radial-gradient(120% 90% at 78% 12%,#000 30%,transparent 78%);
+}
+#login .brandmark{display:flex;align-items:center;gap:12px;position:relative}
+.mark{
+  width:40px;height:40px;border-radius:11px;display:grid;place-items:center;
+  background:linear-gradient(150deg,#E4C56A,#B1892A);color:#26200D;
+  font-family:var(--font-display);font-weight:700;font-size:22px;
+  box-shadow:0 6px 18px rgba(0,0,0,.28);
+}
+#login .brandmark .wm{line-height:1.05}
+#login .brandmark .wm b{font-family:var(--font-display);font-weight:600;font-size:17px;letter-spacing:-.01em}
+#login .brandmark .wm span{display:block;font-family:var(--font-mono);font-size:10px;letter-spacing:.22em;color:#8FB0BD}
+#login .pitch{margin-top:auto;position:relative;max-width:440px}
+#login .pitch h1{
+  font-family:var(--font-display);font-weight:500;font-size:40px;line-height:1.08;
+  letter-spacing:-.02em;margin:0 0 16px;
+}
+#login .pitch p{color:#A9C2CC;font-size:15px;margin:0}
+#login .meridian{margin-top:34px;position:relative}
+#login .stat-row{display:flex;gap:30px;margin-top:26px;position:relative}
+#login .stat-row .s b{display:block;font-family:var(--font-display);font-size:22px;color:#fff}
+#login .stat-row .s span{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;color:#7FA0AE;text-transform:uppercase}
+
+#login .panel{display:flex;align-items:center;justify-content:center;padding:40px}
+#login .card{width:100%;max-width:360px}
+#login .card .k{font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;color:var(--ink-3);text-transform:uppercase}
+#login .card h2{font-family:var(--font-display);font-weight:600;font-size:26px;margin:8px 0 4px;letter-spacing:-.01em}
+#login .card .sub{color:var(--ink-2);margin:0 0 26px}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:12.5px;font-weight:600;color:var(--ink-2);margin-bottom:7px}
+.field input{
+  width:100%;padding:12px 14px;border:1px solid var(--hair);border-radius:var(--r-md);
+  font-family:inherit;font-size:14.5px;color:var(--ink);background:var(--surface);transition:border-color .15s,box-shadow .15s;
+}
+.field input:focus{outline:none;border-color:var(--brass);box-shadow:0 0 0 3px var(--brass-soft)}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:12px 18px;border-radius:var(--r-md);border:1px solid transparent;
+  font-weight:600;font-size:14px;transition:transform .08s,background .15s,box-shadow .15s;
+}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--abyss);color:#fff;box-shadow:var(--sh-1)}
+.btn-primary:hover{background:#0f2c3b}
+.btn-brass{background:var(--brass);color:#2a2109}
+.btn-brass:hover{background:#b98424}
+.btn-ghost{background:transparent;border-color:var(--hair);color:var(--ink)}
+.btn-ghost:hover{background:var(--surface-2)}
+.btn-block{width:100%}
+.btn-sm{padding:8px 12px;font-size:13px;border-radius:var(--r-sm)}
+#login .hint{margin-top:18px;font-size:12.5px;color:var(--ink-3);text-align:center;line-height:1.6}
+#login .hint code{font-family:var(--font-mono);background:var(--surface-2);padding:1px 6px;border-radius:5px;color:var(--ink-2)}
+
+/* ============================================================
+   App shell
+   ============================================================ */
+#app{display:none;min-height:100vh}
+#app.on{display:grid;grid-template-columns:var(--rail-w) 1fr}
+
+.rail{
+  position:sticky;top:0;height:100vh;background:var(--abyss);color:#C9D8DF;
+  display:flex;flex-direction:column;padding:18px 14px;gap:6px;
+}
+.rail .top{display:flex;align-items:center;gap:11px;padding:6px 8px 16px}
+.rail .top .wm b{font-family:var(--font-display);font-weight:600;font-size:16px;color:#fff;letter-spacing:-.01em;display:block;line-height:1.05}
+.rail .top .wm span{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.2em;color:#7C9AA8}
+.rail .grp{font-family:var(--font-mono);font-size:10px;letter-spacing:.16em;color:#5C7D8B;text-transform:uppercase;padding:14px 10px 6px}
+.nav-item{
+  display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:10px;
+  color:#B4C7CF;font-weight:500;font-size:13.5px;position:relative;transition:background .14s,color .14s;
+}
+.nav-item svg{width:18px;height:18px;flex:none;stroke-width:1.7}
+.nav-item .badge{margin-left:auto;background:var(--brass);color:#241b06;font-family:var(--font-mono);font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:20px}
+.nav-item:hover{background:#102b3a;color:#EAF1F5}
+.nav-item.active{background:#0f2c3b;color:#fff}
+.nav-item.active::before{content:"";position:absolute;left:-14px;top:8px;bottom:8px;width:3px;border-radius:0 3px 3px 0;background:var(--brass)}
+.rail .spacer{flex:1}
+.rail .me{display:flex;align-items:center;gap:10px;padding:10px;border-top:1px solid var(--abyss-line);margin-top:8px}
+.rail .me .av{width:32px;height:32px;border-radius:9px;background:#1c4155;color:#CFE6EE;display:grid;place-items:center;font-weight:600;font-size:13px}
+.rail .me .who b{display:block;font-size:12.5px;color:#EAF1F5}
+.rail .me .who span{font-size:11px;color:#7C9AA8}
+.rail .me button{margin-left:auto;background:transparent;border:none;color:#7C9AA8;padding:6px;border-radius:8px}
+.rail .me button:hover{background:#102b3a;color:#EAF1F5}
+
+/* ---- main column ---- */
+.main{min-width:0;display:flex;flex-direction:column}
+.topbar{
+  position:sticky;top:0;z-index:20;background:rgba(245,247,250,.82);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--hair);padding:16px 30px;display:flex;align-items:center;gap:18px;
+}
+.topbar .title h1{font-family:var(--font-display);font-weight:600;font-size:20px;margin:2px 0 0;letter-spacing:-.01em}
+.search{margin-left:auto;position:relative;width:min(320px,32vw)}
+.search input{width:100%;padding:9px 12px 9px 36px;border:1px solid var(--hair);border-radius:10px;background:var(--surface);font-size:13.5px}
+.search input:focus{outline:none;border-color:var(--brass);box-shadow:0 0 0 3px var(--brass-soft)}
+.search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--ink-3)}
+.iconbtn{width:38px;height:38px;border-radius:10px;border:1px solid var(--hair);background:var(--surface);display:grid;place-items:center;color:var(--ink-2)}
+.iconbtn:hover{background:var(--surface-2);color:var(--ink)}
+.iconbtn svg{width:18px;height:18px}
+
+.view{padding:26px 30px 60px;max-width:1240px;width:100%}
+
+/* ============================================================
+   Instrument strip (KPIs)
+   ============================================================ */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px}
+.kpi{
+  background:var(--surface);border:1px solid var(--hair);border-radius:var(--r-lg);
+  padding:16px 16px 12px;position:relative;overflow:hidden;box-shadow:var(--sh-1);
+}
+.kpi .k{display:flex;align-items:center;gap:8px;color:var(--ink-2);font-size:12.5px;font-weight:600}
+.kpi .k .dot{width:8px;height:8px;border-radius:50%}
+.kpi .v{font-family:var(--font-display);font-size:30px;font-weight:600;letter-spacing:-.02em;margin-top:10px;font-variant-numeric:tabular-nums}
+.kpi .v small{font-size:14px;color:var(--ink-3);font-weight:500;margin-right:3px}
+.kpi .f{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-3);margin-top:2px}
+.kpi .spark{position:absolute;right:14px;top:16px;opacity:.9}
+.kpi.click{cursor:pointer;transition:transform .1s,box-shadow .15s,border-color .15s}
+.kpi.click:hover{transform:translateY(-2px);box-shadow:var(--sh-2);border-color:#D5DEE7}
+.trend-up{color:var(--green)} .trend-down{color:var(--red)}
+
+/* ============================================================
+   Panels / grid
+   ============================================================ */
+.grid{display:grid;gap:16px}
+.g-2{grid-template-columns:1.6fr 1fr}
+.g-2b{grid-template-columns:1fr 1fr}
+.panel{background:var(--surface);border:1px solid var(--hair);border-radius:var(--r-lg);box-shadow:var(--sh-1)}
+.panel .ph{display:flex;align-items:center;gap:12px;padding:16px 18px 12px}
+.panel .ph .eyebrow{margin-bottom:3px}
+.panel .ph h3{font-family:var(--font-display);font-weight:600;font-size:15.5px;margin:0;letter-spacing:-.01em}
+.panel .ph .r{margin-left:auto;display:flex;gap:6px;align-items:center}
+.panel .pb{padding:6px 18px 18px}
+.seg{display:inline-flex;background:var(--surface-2);border-radius:9px;padding:3px}
+.seg button{border:none;background:transparent;padding:5px 11px;border-radius:7px;font-size:12px;font-weight:600;color:var(--ink-2)}
+.seg button.on{background:var(--surface);color:var(--ink);box-shadow:var(--sh-1)}
+
+/* ---- meridian chart ---- */
+.meridian-wrap{position:relative}
+.meridian-wrap .yl{position:absolute;left:0;top:0;bottom:26px;width:44px;display:flex;flex-direction:column;justify-content:space-between;font-family:var(--font-mono);font-size:10px;color:var(--ink-3);text-align:right;padding-right:8px}
+.meridian-wrap svg{display:block;width:100%}
+
+/* ---- top vendors ---- */
+.vbar{display:flex;align-items:center;gap:12px;padding:9px 0;border-top:1px solid var(--hair)}
+.vbar:first-child{border-top:none}
+.vbar .n{width:150px;font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.vbar .track{flex:1;height:9px;background:var(--surface-2);border-radius:6px;overflow:hidden}
+.vbar .fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--teal),#3aa3a3)}
+.vbar .amt{width:96px;text-align:right;font-size:12.5px;color:var(--ink-2)}
+
+/* ---- status donut / segments ---- */
+.legend{display:flex;flex-direction:column;gap:9px;margin-top:4px}
+.legend .li{display:flex;align-items:center;gap:9px;font-size:13px}
+.legend .li .sw{width:10px;height:10px;border-radius:3px;flex:none}
+.legend .li .lb{color:var(--ink)}
+.legend .li .ct{margin-left:auto;font-family:var(--font-mono);font-size:12px;color:var(--ink-2)}
+
+/* ============================================================
+   Tables
+   ============================================================ */
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.chip{
+  display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border:1px solid var(--hair);
+  background:var(--surface);border-radius:20px;font-size:12.5px;font-weight:500;color:var(--ink-2);
+}
+.chip.on{background:var(--abyss);color:#fff;border-color:var(--abyss)}
+.chip:hover:not(.on){background:var(--surface-2)}
+.tablewrap{background:var(--surface);border:1px solid var(--hair);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh-1)}
+table{width:100%;border-collapse:collapse}
+thead th{
+  text-align:left;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-3);font-weight:700;padding:13px 16px;border-bottom:1px solid var(--hair);white-space:nowrap;background:#FBFCFD;
+}
+thead th.num,td.num{text-align:right}
+tbody td{padding:14px 16px;border-bottom:1px solid var(--hair);font-size:13.5px;vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+tbody tr{cursor:pointer;transition:background .12s}
+tbody tr:hover{background:#FBFAF6}
+td .id{font-family:var(--font-mono);font-size:12.5px;color:var(--ink);font-weight:700}
+td .sub{color:var(--ink-3);font-size:12px}
+.badge-s{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:20px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.badge-s .d{width:6px;height:6px;border-radius:50%}
+.s-green{background:var(--green-soft);color:#146c46} .s-green .d{background:var(--green)}
+.s-amber{background:var(--amber-soft);color:#8a6416} .s-amber .d{background:var(--amber)}
+.s-red{background:var(--red-soft);color:#8f3320} .s-red .d{background:var(--red)}
+.s-blue{background:var(--blue-soft);color:#1f4e82} .s-blue .d{background:var(--blue)}
+.s-grey{background:var(--surface-2);color:var(--ink-2)} .s-grey .d{background:var(--ink-3)}
+
+/* ---- empty & skeleton ---- */
+.empty{padding:56px 24px;text-align:center;color:var(--ink-2)}
+.empty .ic{width:52px;height:52px;border-radius:14px;background:var(--surface-2);display:grid;place-items:center;margin:0 auto 14px;color:var(--ink-3)}
+.empty h4{font-family:var(--font-display);font-size:16px;margin:0 0 4px;color:var(--ink)}
+.empty p{margin:0 0 16px;font-size:13.5px}
+.sk{background:linear-gradient(90deg,#eef2f6 25%,#e5eaf0 37%,#eef2f6 63%);background-size:400% 100%;animation:sh 1.3s ease infinite;border-radius:6px}
+@keyframes sh{0%{background-position:100% 0}100%{background-position:-100% 0}}
+
+/* ============================================================
+   Drawer
+   ============================================================ */
+.scrim{position:fixed;inset:0;background:rgba(9,22,30,.42);opacity:0;pointer-events:none;transition:opacity .2s;z-index:40}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{
+  position:fixed;top:0;right:0;height:100vh;width:min(520px,94vw);background:var(--canvas);
+  box-shadow:var(--sh-3);transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.15,1);
+  z-index:41;display:flex;flex-direction:column;
+}
+.drawer.on{transform:none}
+.drawer .dh{padding:20px 22px;border-bottom:1px solid var(--hair);display:flex;align-items:flex-start;gap:12px;background:var(--surface)}
+.drawer .dh .x{margin-left:auto;background:transparent;border:none;color:var(--ink-3);padding:6px;border-radius:8px}
+.drawer .dh .x:hover{background:var(--surface-2);color:var(--ink)}
+.drawer .db{padding:22px;overflow:auto;flex:1}
+.drawer .df{padding:16px 22px;border-top:1px solid var(--hair);display:flex;gap:10px;background:var(--surface)}
+.kv{display:grid;grid-template-columns:130px 1fr;gap:10px 14px;font-size:13.5px}
+.kv dt{color:var(--ink-3);font-size:12.5px}
+.kv dd{margin:0;color:var(--ink);font-weight:500}
+.section-t{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin:24px 0 12px}
+.lineitem{background:var(--surface);border:1px solid var(--hair);border-radius:var(--r-md);padding:12px 14px;margin-bottom:8px}
+.lineitem .r1{display:flex;justify-content:space-between;gap:10px}
+.lineitem .r1 b{font-size:13.5px}
+.lineitem .r2{display:flex;justify-content:space-between;color:var(--ink-3);font-size:12px;margin-top:3px}
+.totbar{display:flex;justify-content:space-between;align-items:center;background:var(--abyss);color:#fff;border-radius:var(--r-md);padding:14px 16px;margin-top:14px}
+.totbar .amt{font-size:20px;color:#fff}
+.totbar span{color:#9FB9C3;font-size:12.5px}
+
+/* budget meter */
+.meter{height:10px;border-radius:6px;background:var(--surface-2);overflow:hidden;margin:8px 0 4px}
+.meter i{display:block;height:100%;border-radius:6px}
+
+/* ---- create form ---- */
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.frow.one{grid-template-columns:1fr}
+select,textarea{width:100%;padding:11px 12px;border:1px solid var(--hair);border-radius:var(--r-md);font-family:inherit;font-size:14px;background:var(--surface);color:var(--ink)}
+select:focus,textarea:focus{outline:none;border-color:var(--brass);box-shadow:0 0 0 3px var(--brass-soft)}
+
+/* ---- toast ---- */
+#toasts{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:60;display:flex;flex-direction:column;gap:8px;align-items:center}
+.toast{background:var(--abyss);color:#fff;padding:11px 16px;border-radius:12px;box-shadow:var(--sh-3);font-size:13.5px;display:flex;align-items:center;gap:10px;animation:tin .25s ease}
+.toast .d{width:8px;height:8px;border-radius:50%;background:var(--brass)}
+.toast.ok .d{background:#5FD39B}
+@keyframes tin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media(max-width:960px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .g-2,.g-2b{grid-template-columns:1fr}
+  #login{grid-template-columns:1fr}
+  #login .stage{display:none}
+}
+@media(max-width:760px){
+  #app.on{grid-template-columns:1fr}
+  .rail{position:fixed;bottom:0;top:auto;left:0;right:0;height:auto;width:100%;flex-direction:row;
+    padding:8px;gap:2px;z-index:30;overflow-x:auto;border-top:1px solid var(--abyss-line)}
+  .rail .top,.rail .grp,.rail .spacer,.rail .me{display:none}
+  .nav-item{flex-direction:column;gap:3px;font-size:10px;padding:7px 10px;white-space:nowrap}
+  .nav-item .badge{position:absolute;top:2px;right:6px;margin:0;padding:0 5px}
+  .nav-item.active::before{display:none}
+  .view{padding:18px 16px 90px}
+  .topbar{padding:12px 16px}
+  .search{display:none}
+  .kpis{grid-template-columns:1fr 1fr;gap:10px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* login value props + ornamental contour (no data, purely brand) */
+#login .valueprops{margin-top:30px;display:flex;flex-direction:column;gap:12px;position:relative}
+#login .vp{display:flex;align-items:center;gap:11px;color:#C4D7DF;font-size:14px}
+#login .vp .vpdot{width:7px;height:7px;border-radius:50%;background:var(--brass);flex:none;box-shadow:0 0 0 4px rgba(198,145,46,.16)}
+#login .contour{margin-top:30px;height:120px;position:relative;opacity:.8}
+/* connection / error state */
+.conn{padding:60px 24px;text-align:center;max-width:520px;margin:0 auto}
+.conn .ic{width:58px;height:58px;border-radius:16px;background:var(--amber-soft);color:#8a6416;display:grid;place-items:center;margin:0 auto 16px}
+.conn h4{font-family:var(--font-display);font-size:18px;margin:0 0 6px}
+.conn p{color:var(--ink-2);margin:0 0 18px;line-height:1.6}
+.conn code{font-family:var(--font-mono);background:var(--surface-2);padding:1px 6px;border-radius:5px;font-size:12px;color:var(--ink-2)}
+.login-err{background:var(--red-soft);color:#8f3320;border-radius:10px;padding:10px 12px;font-size:13px;margin-bottom:14px;display:none}
+.login-err.on{display:block}
+</style>
+</head>
+<body>
+
+<!-- ========================= LOGIN ========================= -->
+<div id="login">
+  <div class="stage">
+    <div class="coords"></div>
+    <div class="brandmark">
+      <div class="mark">A</div>
+      <div class="wm"><b>Atlas</b><span>PROCUREMENT</span></div>
+    </div>
+    <div class="pitch">
+      <div class="eyebrow" style="color:#7FA0AE">Middlesex University Mauritius · Procure&nbsp;to&nbsp;Pay</div>
+      <h1>Every rupee, mapped from request to payment.</h1>
+      <p>One view of purchase orders, bills, receipts and approvals — with budgets checked before you commit.</p>
+      <div class="contour" id="loginArt" aria-hidden="true"></div>
+      <div class="valueprops">
+        <div class="vp"><span class="vpdot"></span>Purchase order → bill → payment, in one place</div>
+        <div class="vp"><span class="vpdot"></span>Budgets checked before you commit</div>
+        <div class="vp"><span class="vpdot"></span>Approvals that mirror NetSuite exactly</div>
+      </div>
+    </div>
+  </div>
+  <div class="panel-side panel-login" style="display:flex;align-items:center;justify-content:center;padding:40px">
+    <div class="card">
+      <div class="k">Secure sign in</div>
+      <h2>Welcome back</h2>
+      <p class="sub">Use your MDX NetSuite credentials.</p>
+      <div class="login-err" id="loginErr"></div>
+      <form id="loginForm" autocomplete="on">
+        <div class="field">
+          <label for="email">Email or employee ID</label>
+          <input id="email" type="text" placeholder="you@mdx.ac.mu" autocomplete="username" required>
+        </div>
+        <div class="field">
+          <label for="pw">Password</label>
+          <input id="pw" type="password" placeholder="Your portal password" autocomplete="current-password" required>
+        </div>
+        <div class="field" id="otpField" style="display:none">
+          <label for="otp">Authentication code</label>
+          <input id="otp" type="text" inputmode="numeric" placeholder="6-digit code" autocomplete="one-time-code">
+        </div>
+        <button class="btn btn-brass btn-block" type="submit" id="loginBtn">Sign in</button>
+      </form>
+      <div class="hint">Prototype build — sign in with any values to explore.<br>Wire to the live portal via the <code>classes.js</code> RestServer actions.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================= APP ========================= -->
+<div id="app">
+  <aside class="rail">
+    <div class="top">
+      <div class="mark" style="width:34px;height:34px;font-size:18px;border-radius:9px">A</div>
+      <div class="wm"><b>Atlas</b><span>PROCUREMENT</span></div>
+    </div>
+    <nav id="nav"></nav>
+    <div class="spacer"></div>
+    <div class="me">
+      <div class="av" id="meAv">–</div>
+      <div class="who"><b id="meName">Signed in</b><span id="meRole">Portal user</span></div>
+      <button id="logout" title="Sign out" aria-label="Sign out">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" width="18" height="18"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+      </button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="title">
+        <div class="eyebrow" id="crumb">DASHBOARD</div>
+        <h1 id="pageTitle">Overview</h1>
+      </div>
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input placeholder="Search POs, bills, vendors…" id="globalSearch">
+      </div>
+      <button class="iconbtn" title="Notifications" aria-label="Notifications">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+      </button>
+      <button class="btn btn-primary btn-sm" id="newPoTop">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M12 5v14M5 12h14"/></svg>
+        New PO
+      </button>
+    </header>
+    <main class="view" id="view"></main>
+  </div>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<div class="drawer" id="drawer" role="dialog" aria-modal="true"></div>
+<div id="toasts"></div>
+
+<script>
+/* ============================================================
+   Atlas Procurement — live client
+   Talks to the NetSuite Suitelet that serves this file.
+   Transport recovered from the deployed portal:
+     • data  : POST location.href  {action, payload} -> {status,data,message}
+     • login : POST location.href  form-urlencoded    -> {status,data,message}
+     • auth  : same-origin session cookie (set by the Suitelet on login)
+   No sample data lives in this file. Opened outside NetSuite,
+   every view shows a clear "not connected" state — never fake numbers.
+   ============================================================ */
+"use strict";
+
+const $  = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>Array.from(r.querySelectorAll(s));
+const el = (h)=>{const t=document.createElement('template');t.innerHTML=h.trim();return t.content.firstElementChild;};
+const RS = "Rs\u00A0";
+const num = (n)=>Number(n)||0;
+const money = (n)=>{n=num(n);const s=n<0?'-':'';n=Math.abs(n);return s+RS+n.toLocaleString('en-US',{maximumFractionDigits:0});};
+const money2= (n)=>{n=num(n);const s=n<0?'-':'';n=Math.abs(n);return s+RS+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});};
+const kMoney=(n)=>{n=num(n);const a=Math.abs(n);if(a>=1e6)return RS+(n/1e6).toFixed(a>=1e7?0:1)+'M';if(a>=1e3)return RS+(n/1e3).toFixed(a>=1e4?0:1)+'k';return RS+n.toFixed(0);};
+const esc=(v)=>String(v==null?'':v).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fdate=(v)=>{if(!v)return '\u2014';const d=new Date(v);if(isNaN(d))return esc(v);return d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});};
+
+/* ---------- transport ---------- */
+const CONFIG={ endpoint:(window.ATLAS_ENDPOINT||'') };
+const endpoint=()=>CONFIG.endpoint||location.href;
+class ApiError extends Error{constructor(kind,msg){super(msg);this.kind=kind;}}
+const SESSION={user:null,employeeId:'',roleId:'',name:'',role:''};
+
+async function rawPost(bodyObj,form){
+  let res;
+  try{
+    res=await fetch(endpoint(),{method:'POST',credentials:'same-origin',
+      headers:form?{'Content-Type':'application/x-www-form-urlencoded','Accept':'application/json'}
+                  :{'Content-Type':'application/json','Accept':'application/json'},
+      body:form?bodyObj:JSON.stringify(bodyObj)});
+  }catch(e){throw new ApiError('network','Couldn\u2019t reach Atlas Procurement. Open the portal from inside NetSuite and check your connection.');}
+  let json;try{json=await res.json();}catch(e){throw new ApiError('parse','The server returned an unexpected response. You may not be signed in to NetSuite.');}
+  return json;
+}
+async function api(action,payload){
+  const json=await rawPost({action,payload:payload||{}});
+  const status=Number(json&&json.status);
+  if(status===400&&/not authenticated|session|logged/i.test(String(json&&json.message||''))){
+    SESSION.user=null;showLogin('Your session has ended. Please sign in again.');
+    throw new ApiError('auth',json.message||'Session expired.');
+  }
+  if(status!==200)throw new ApiError('server',(json&&json.message)||'The request could not be completed.');
+  return json.data;
+}
+function withActor(p){p=p||{};if(SESSION.employeeId){if(p.currentEmployeeId===undefined)p.currentEmployeeId=String(SESSION.employeeId);
+  if(p.actorEmployeeId===undefined)p.actorEmployeeId=String(SESSION.employeeId);if(p.employeeId===undefined)p.employeeId=String(SESSION.employeeId);}
+  if(SESSION.roleId&&p.roleId===undefined)p.roleId=String(SESSION.roleId);return p;}
+
+/* ---------- auth ---------- */
+async function checkSession(){
+  const json=await rawPost({action:'GET_PORTAL_BOOTSTRAP',payload:{}});
+  if(Number(json&&json.status)===200&&json.data&&json.data.user){setSession(json.data.user);return true;}
+  return false;
+}
+function setSession(u){
+  u=u||{};SESSION.user=u;
+  SESSION.employeeId=u.internalId||u.employeeId||u.id||'';
+  SESSION.roleId=u.roleId||u.role||'';
+  SESSION.name=u.name||[u.firstName,u.lastName].filter(Boolean).join(' ')||u.fullName||u.emailAddress||u.email||'User';
+  SESSION.role=u.roleName||u.roleText||u.portalRole||'Portal user';
+  const av=$('#meAv'),nm=$('#meName'),rl=$('#meRole');
+  if(nm)nm.textContent=SESSION.name;if(rl)rl.textContent=SESSION.role;
+  if(av)av.textContent=SESSION.name.split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase()||'U';
+}
+async function doLogin(employeeId,password,otp){
+  const body='employeeId='+encodeURIComponent(employeeId)+'&password='+encodeURIComponent(password)+'&otp='+encodeURIComponent(otp||'');
+  const json=await rawPost(body,true);
+  return json; // {status,data,message}
+}
+
+/* ============================================================ Nav ============================================================ */
+const ICON={overview:'<path d="M3 13h8V3H3zM13 21h8V3h-8zM3 21h8v-6H3z"/>',
+  po:'<path d="M9 2h6l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zM9 11h6M9 15h6"/>',
+  receipt:'<path d="M4 3h16v18l-3-2-3 2-3-2-3 2zM8 9h8M8 13h5"/>',
+  bill:'<path d="M3 6h18v12H3zM3 10h18M7 15h4"/>',
+  expense:'<circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5h4a1.5 1.5 0 0 1 0 3h-3a1.5 1.5 0 0 0 0 3h4"/>',
+  approvals:'<path d="M9 11l3 3 8-8M20 12v7a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h11"/>',
+  budget:'<path d="M3 3v18h18M7 15l4-4 3 3 5-6"/>',
+  req:'<path d="M9 2h6l4 4v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zM9 12h6M9 16h4M9 8h3"/>',
+  payreq:'<path d="M3 6h18v12H3zM3 10h18"/><circle cx="8" cy="14" r="1.6"/>',
+  vendor:'<path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6M9 11h.01M15 11h.01"/>',
+  contract:'<path d="M8 2h6l4 4v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zM9 13l2 2 4-4"/>'};
+const NAV=[
+  {grp:'Workspace',items:[{id:'overview',label:'Overview'},{id:'approvals',label:'Approvals',badge:true}]},
+  {grp:'Procure to Pay',items:[{id:'req',label:'Requisitions'},{id:'po',label:'Purchase Orders'},{id:'receipt',label:'Item Receipts'},{id:'bill',label:'Vendor Bills'},{id:'payreq',label:'Payment Requests'},{id:'expense',label:'Expense Reports'}]},
+  {grp:'Suppliers',items:[{id:'vendor',label:'Vendors'},{id:'contract',label:'Contracts'}]},
+  {grp:'Control',items:[{id:'budget',label:'Budgets'}]}];
+const NAVBADGE={}; // filled from dashboard tiles
+function buildNav(){
+  const n=$('#nav');n.innerHTML='';
+  NAV.forEach(g=>{n.appendChild(el(`<div class="grp">${g.grp}</div>`));
+    g.items.forEach(it=>{const b=it.badge?NAVBADGE[it.id]:0;
+      n.appendChild(el(`<a class="nav-item" href="#${it.id}" data-view="${it.id}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">${ICON[it.id]}</svg><span>${it.label}</span>${b?`<span class="badge">${b}</span>`:''}</a>`));});});
+}
+const TITLES={overview:['DASHBOARD','Overview'],po:['PROCURE TO PAY','Purchase Orders'],newpo:['PROCURE TO PAY','New Purchase Order'],newbill:['PROCURE TO PAY','New Vendor Bill'],newreceipt:['PROCURE TO PAY','Receive Items'],req:['PROCURE TO PAY','Requisitions'],newreq:['PROCURE TO PAY','New Requisition'],payreq:['PROCURE TO PAY','Payment Requests'],newpayreq:['PROCURE TO PAY','New Payment Request'],refund:['PROCURE TO PAY','Employee Refund'],vendor:['SUPPLIERS','Vendors'],newvendor:['SUPPLIERS','New Vendor Request'],contract:['SUPPLIERS','Contracts'],newcontract:['SUPPLIERS','New Contract'],newexpense:['PROCURE TO PAY','New Expense Report'],receipt:['PROCURE TO PAY','Item Receipts'],
+  bill:['PROCURE TO PAY','Vendor Bills'],expense:['PROCURE TO PAY','Expense Reports'],approvals:['WORKSPACE','Approvals'],budget:['CONTROL','Budgets']};
+
+/* ============================================================ Router ============================================================ */
+const VIEWS={};
+async function route(){
+  const v=(location.hash.replace('#','')||'overview');const view=VIEWS[v]?v:'overview';
+  $$('.nav-item').forEach(a=>a.classList.toggle('active',a.dataset.view===view));
+  const[c,t]=TITLES[view];$('#crumb').textContent=c;$('#pageTitle').textContent=t;
+  try{await VIEWS[view]();}catch(e){if(e.kind!=='auth')$('#view').innerHTML=connState(e);}
+}
+/* ---------- shared states ---------- */
+const skRows=(c=6)=>`<div class="tablewrap"><table><tbody>${Array(c).fill(`<tr><td><div class="sk" style="height:16px;width:${40+Math.random()*45}%"></div></td></tr>`).join('')}</tbody></table></div>`;
+const skKpis=()=>`<div class="kpis">${Array(4).fill(`<div class="kpi"><div class="sk" style="height:14px;width:55%"></div><div class="sk" style="height:30px;width:70%;margin-top:14px"></div></div>`).join('')}</div>`;
+function connState(e){
+  const net=(e&&(e.kind==='network'||e.kind==='parse'));
+  return `<div class="conn">
+    <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" width="26" height="26"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg></div>
+    <h4>${net?'Not connected to Atlas':'Couldn\u2019t load this view'}</h4>
+    <p>${esc(e&&e.message||'Something went wrong.')}${net?'<br><br>This portal reads live NetSuite data and must be opened from the deployed Suitelet URL while you are signed in. Served as a static file it has no backend to reach.':''}</p>
+    <button class="btn btn-primary" onclick="route()">Try again</button>
+  </div>`;
+}
+const emptyState=(title,msg,icon)=>`<div class="tablewrap"><div class="empty"><div class="ic">${icon||'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="24" height="24"><path d="M3 7h18M3 12h18M3 17h10"/></svg>'}</div><h4>${title}</h4><p>${msg}</p></div></div>`;
+
+/* ---------- status badge ---------- */
+function badge(txt){const t=(txt||'').toLowerCase();let c='s-grey';
+  if(/paid|approved|fully billed|received|closed/.test(t))c='s-green';
+  else if(/pending bill|pending receipt|partially|open|pending supervisor|pending approval|pending/.test(t))c='s-amber';
+  else if(/overdue|rejected|failed|declined|hold/.test(t))c='s-red';
+  else if(/submitted|in review|draft/.test(t))c='s-blue';
+  return `<span class="badge-s ${c}"><span class="d"></span>${esc(txt||'\u2014')}</span>`;}
+
+/* ============================================================ Overview ============================================================ */
+VIEWS.overview=async function(){
+  const view=$('#view');view.innerHTML=skKpis()+`<div class="grid g-2" style="margin-top:16px"><div class="panel" style="height:320px"></div><div class="panel" style="height:320px"></div></div>`;
+  const d=await api('GET_DASHBOARD_DATA',withActor({trendDays:30}));
+  const r=(d&&d.reports)||{};const tiles=(d&&d.tiles)||{};
+  const openPOs=r.openPOs||{count:0,total:0},openBills=r.openBills||{count:0,overdueCount:0},paidYtd=r.paidYtd||{total:0};
+  const vbs=r.vendorBillStatus||{paid:{count:0}};const pend=(tiles.pendingPOApproval||{}).value||0,recv=(tiles.pendingPOReceiving||{}).value||0;
+  NAVBADGE.approvals=pend;NAVBADGE.receipt=recv;buildNav();$$('.nav-item').forEach(a=>a.classList.toggle('active',a.dataset.view==='overview'));
+
+  const spark=(vals,color)=>{vals=(vals||[]).filter(v=>typeof v==='number');if(vals.length<2)return '';
+    const w=64,h=26,mx=Math.max(...vals,1);return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" fill="none"><polyline points="${vals.map((v,i)=>`${(i/(vals.length-1))*w},${h-(v/mx)*h}`).join(' ')}" stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/></svg>`;};
+  const trendVals=(r.spendTrend||[]).slice(-14).map(p=>num(p.value));
+  const kpi=(dot,label,value,foot,footcls,spark_,go)=>`<div class="kpi click" data-go="${go||''}"><div class="k"><span class="dot" style="background:${dot}"></span>${label}</div><div class="v">${value}</div><div class="f ${footcls||''}">${foot}</div>${spark_?`<div class="spark">${spark_}</div>`:''}</div>`;
+
+  view.innerHTML=`
+    <div class="kpis">
+      ${kpi('var(--brass)','Open purchase orders',openPOs.count,`${money(openPOs.total)} committed`,'',spark(trendVals,'var(--brass)'),'po')}
+      ${kpi('var(--blue)','Open vendor bills',openBills.count,openBills.overdueCount?`<span class="trend-down">${openBills.overdueCount} overdue</span>`:'None overdue','',spark(trendVals.map(v=>v*0.7),'var(--blue)'),'bill')}
+      ${kpi('var(--green)','Paid year to date',kMoney(paidYtd.total),`${(vbs.paid&&vbs.paid.count)||0} bills settled`,'',spark(trendVals.map((v,i)=>i*2+1),'var(--green)'),'bill')}
+      ${kpi('var(--amber)','Awaiting your action',pend+recv,`${pend} approvals \u00b7 ${recv} receipts`,'','','approvals')}
+    </div>
+    <div class="grid g-2">
+      <div class="panel"><div class="ph"><div><div class="eyebrow">Committed spend \u00b7 30 days</div><h3>Spend meridian</h3></div></div><div class="pb"><div id="meridian"></div></div></div>
+      <div class="panel"><div class="ph"><div><div class="eyebrow">Needs you</div><h3>Action queue</h3></div></div><div class="pb" id="queue"></div></div>
+    </div>
+    <div class="grid g-2b" style="margin-top:16px">
+      <div class="panel"><div class="ph"><div><div class="eyebrow">Year to date</div><h3>Top vendors by commitment</h3></div></div><div class="pb" id="vendors"></div></div>
+      <div class="panel"><div class="ph"><div><div class="eyebrow">By native status</div><h3>Purchase order pipeline</h3></div></div><div class="pb"><div id="poStatus"></div></div></div>
+    </div>`;
+
+  drawMeridian($('#meridian'),r.spendTrend||[]);
+
+  const queue=r.awaitingAction||[];
+  $('#queue').innerHTML=queue.length?queue.map(a=>`<div class="vbar" style="cursor:pointer" data-id="${esc(a.id)}">
+      <div style="flex:1;min-width:0"><div style="font-weight:600;font-size:13px"><span class="mono" style="color:var(--ink-2)">${esc(a.tranId||'')}</span></div>
+      <div style="color:var(--ink-3);font-size:12px">${esc(a.vendorName||'')}</div></div>
+      <div class="amt" style="font-size:14px">${money(a.amount)}</div>
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--ink-3)" stroke-width="2" width="16" height="16"><path d="m9 18 6-6-6-6"/></svg></div>`).join('')
+    :`<div style="padding:26px 4px;color:var(--ink-3);font-size:13.5px">Nothing needs your attention right now.</div>`;
+  $('#queue').addEventListener('click',e=>{const row=e.target.closest('[data-id]');if(row&&row.dataset.id)openPO(row.dataset.id);});
+
+  const tv=r.topVendors||[];const mx=Math.max(...tv.map(v=>num(v.value)),1);
+  $('#vendors').innerHTML=tv.length?tv.map(v=>`<div class="vbar"><div class="n">${esc(v.name)}</div><div class="track"><div class="fill" style="width:${(num(v.value)/mx*100).toFixed(1)}%"></div></div><div class="amt">${kMoney(v.value)}</div></div>`).join('')
+    :`<div style="padding:24px 4px;color:var(--ink-3);font-size:13.5px">No vendor spend recorded yet this year.</div>`;
+
+  const ps=r.poStatus||[];const cols={'Pending Bill':'var(--amber)','Pending Receipt':'var(--blue)','Partially Received':'var(--teal)','Fully Billed':'var(--green)','Pending Supervisor Approval':'var(--red)'};
+  const tot=ps.reduce((s,x)=>s+num(x.count),0)||1;
+  $('#poStatus').innerHTML=ps.length?`<div style="display:flex;height:14px;border-radius:8px;overflow:hidden;margin:6px 0 16px;background:var(--surface-2)">${ps.map(s=>`<div style="width:${num(s.count)/tot*100}%;background:${cols[s.label]||'var(--ink-3)'}"></div>`).join('')}</div>
+    <div class="legend">${ps.map(s=>`<div class="li"><span class="sw" style="background:${cols[s.label]||'var(--ink-3)'}"></span><span class="lb">${esc(s.label)}</span><span class="ct">${num(s.count)} \u00b7 ${kMoney(s.amount)}</span></div>`).join('')}</div>`
+    :`<div style="padding:24px 4px;color:var(--ink-3);font-size:13.5px">No open purchase orders.</div>`;
+
+  $$('.kpi.click').forEach(k=>k.addEventListener('click',()=>{if(k.dataset.go)location.hash=k.dataset.go;}));
+};
+function drawMeridian(mount,series){
+  if(!series||!series.length){mount.innerHTML=`<div style="padding:60px 10px;text-align:center;color:var(--ink-3);font-size:13px">No spend recorded in this period.</div>`;return;}
+  const W=680,H=220,padL=46,padB=26,padT=12,padR=8;const vals=series.map(p=>num(p.value));const mx=Math.max(...vals,1);
+  const nice=Math.ceil(mx/50000)*50000||50000;const x=i=>padL+(i/(series.length-1||1))*(W-padL-padR);const y=v=>padT+(1-v/nice)*(H-padT-padB);
+  let line='';series.forEach((p,i)=>line+=(i?'L':'M')+x(i).toFixed(1)+' '+y(num(p.value)).toFixed(1)+' ');
+  const area=line+`L${x(series.length-1)} ${H-padB} L${x(0)} ${H-padB} Z`;
+  const grid=[0,.25,.5,.75,1].map(f=>{const gy=padT+f*(H-padT-padB);return `<line x1="${padL}" y1="${gy}" x2="${W-padR}" y2="${gy}" stroke="var(--hair)"/><text x="${padL-8}" y="${gy+3}" text-anchor="end" font-family="Space Mono" font-size="10" fill="var(--ink-3)">${kMoney(nice*(1-f))}</text>`;}).join('');
+  let xl='';series.forEach((p,i)=>{if(i%6===0||i===series.length-1)xl+=`<text x="${x(i)}" y="${H-8}" text-anchor="middle" font-family="Space Mono" font-size="9.5" fill="var(--ink-3)">${fdate(p.date).replace(/ \d{4}$/,'')}</text>`;});
+  const li=series.length-1;
+  mount.innerHTML=`<svg viewBox="0 0 ${W} ${H}" width="100%" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Committed spend over time">
+    <defs><linearGradient id="mg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--brass)" stop-opacity=".26"/><stop offset="1" stop-color="var(--brass)" stop-opacity="0"/></linearGradient></defs>
+    ${grid}<path d="${area}" fill="url(#mg)"/><path d="${line}" fill="none" stroke="var(--brass)" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="${x(li)}" cy="${y(num(series[li].value))}" r="4.5" fill="var(--brass)" stroke="#fff" stroke-width="2"/>${xl}</svg>`;
+}
+
+/* ============================================================ List factory ============================================================ */
+function listView({action,pick,cols,row,filters,onRow,empty,actions}){
+  return async function(){
+    const view=$('#view');view.innerHTML=`<div class="toolbar" id="tb"></div>${skRows(6)}`;
+    const data=await api(action,withActor({}));
+    const rows0=pick(data)||[];let active='All';
+    const tb=$('#tb');
+    tb.innerHTML=(filters||['All']).map((f,i)=>`<button class="chip ${i===0?'on':''}" data-f="${esc(f)}">${esc(f)}</button>`).join('')
+      +`<div style="margin-left:auto;display:flex;align-items:center;gap:10px"><span style="color:var(--ink-3);font-size:12.5px" id="count"></span>`
+      +((actions||[]).map((a,i)=>`<button class="btn ${a.cls||'btn-ghost'} btn-sm" data-act="${i}">${esc(a.label)}</button>`).join(''))+`</div>`;
+    (actions||[]).forEach((a,i)=>{const btn=tb.querySelector(`[data-act="${i}"]`);if(btn)btn.addEventListener('click',a.onClick);});
+    function render(){
+      let rows=rows0;
+      if(active!=='All')rows=rows0.filter(r=>((r.status||r.approvalStatusText||'')+'').toLowerCase().includes(active.toLowerCase()));
+      $('#count').textContent=`${rows.length} record${rows.length===1?'':'s'}`;
+      view.querySelectorAll('.tablewrap').forEach(n=>n.remove());
+      if(!rows.length){view.insertAdjacentHTML('beforeend',emptyState('Nothing here yet',empty||'Records will appear as they are created.'));return;}
+      view.insertAdjacentHTML('beforeend',`<div class="tablewrap"><table><thead><tr>${cols.map(c=>`<th class="${c.num?'num':''}">${c.h}</th>`).join('')}</tr></thead>
+        <tbody>${rows.map(r=>`<tr data-i="${rows0.indexOf(r)}">${row(r).map((cell,ci)=>`<td class="${cols[ci].num?'num':''}">${cell}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`);
+      view.querySelectorAll('tbody tr[data-i]').forEach(tr=>tr.addEventListener('click',()=>onRow(rows0[+tr.dataset.i])));
+    }
+    tb.addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;active=b.dataset.f;$$('.chip',tb).forEach(c=>c.classList.toggle('on',c===b));render();});
+    render();
+  };
+}
+VIEWS.po=listView({action:'GET_PURCHASE_ORDERS_LIST',pick:d=>d&&d.orders,
+  filters:['All','Pending Approval','Pending Receipt','Pending Bill','Fully Billed'],
+  cols:[{h:'Purchase order'},{h:'Vendor'},{h:'Department'},{h:'Status'},{h:'Amount',num:true}],
+  row:p=>[`<div class="id">${esc(p.tranId)}</div><div class="sub">${fdate(p.dateISO||p.date)}</div>`,esc(p.vendorName),esc(p.departmentText||'\u2014'),badge(p.status),`<span class="amt">${money(p.amount)}</span>`],
+  onRow:p=>openPO(p.id,p),empty:'Purchase orders created in the portal will appear here.'});
+VIEWS.bill=listView({action:'GET_VENDOR_BILLS_LIST',pick:d=>d&&d.bills,
+  filters:['All','Open','Overdue','Paid'],
+  actions:[{label:'Bill from PO',cls:'btn-ghost',onClick:()=>{NEWBILL.mode='po';location.hash='newbill';}},
+           {label:'New vendor bill',cls:'btn-primary',onClick:()=>{NEWBILL.mode='blank';location.hash='newbill';}}],
+  cols:[{h:'Bill'},{h:'Vendor'},{h:'Bill date'},{h:'Due'},{h:'Status'},{h:'Amount',num:true}],
+  row:b=>[`<div class="id">${esc(b.tranId)}</div>`,esc(b.vendorName),fdate(b.dateISO||b.date),b.dueDate?esc(b.dueDate):'\u2014',badge(b.status),`<span class="amt">${money(b.amount)}</span>`],
+  onRow:b=>openGeneric('Vendor bill',b.tranId,[['Vendor',esc(b.vendorName)],['Bill date',fdate(b.dateISO||b.date)],['Due date',b.dueDate?esc(b.dueDate):'\u2014'],['Status',badge(b.status)],['Approval',esc(b.approvalStatusText||'\u2014')],['Amount',`<span class="amt">${money2(b.amount)}</span>`]]),
+  empty:'Bills matched from purchase orders will appear here.'});
+VIEWS.receipt=listView({action:'GET_ITEM_RECEIPTS_LIST',pick:d=>d&&d.receipts,filters:['All'],
+  actions:[{label:'Receive items',cls:'btn-primary',onClick:()=>{location.hash='newreceipt';}}],
+  cols:[{h:'Receipt'},{h:'Vendor'},{h:'Against PO'},{h:'Date'},{h:'Amount',num:true}],
+  row:r=>[`<div class="id">${esc(r.tranId)}</div>`,esc(r.vendorName),`<span class="mono" style="font-size:12px">${esc(r.poNumber||'\u2014')}</span>`,fdate(r.dateISO||r.date),`<span class="amt">${money(r.amount)}</span>`],
+  onRow:r=>openGeneric('Item receipt',r.tranId,[['Vendor',esc(r.vendorName)],['Against PO',`<span class="mono">${esc(r.poNumber||'\u2014')}</span>`],['Received',fdate(r.dateISO||r.date)],['Amount',`<span class="amt">${money2(r.amount)}</span>`]]),
+  empty:'Receiving an approved purchase order records a receipt here.'});
+VIEWS.expense=listView({action:'GET_EXPENSE_REPORTS_LIST',pick:d=>d&&d.reports,filters:['All','Submitted','Approved','Paid'],
+  actions:[{label:'New expense report',cls:'btn-primary',onClick:()=>{location.hash='newexpense';}}],
+  cols:[{h:'Report'},{h:'Employee'},{h:'Department'},{h:'Status'},{h:'Amount',num:true}],
+  row:x=>[`<div class="id">${esc(x.tranId)}</div><div class="sub">${fdate(x.dateISO||x.date)}</div>`,esc(x.employeeName),esc(x.departmentText||'\u2014'),badge(x.status),`<span class="amt">${money(x.amount)}</span>`],
+  onRow:x=>openGeneric('Expense report',x.tranId,[['Employee',esc(x.employeeName)],['Department',esc(x.departmentText||'\u2014')],['Date',fdate(x.dateISO||x.date)],['Status',badge(x.status)],['Approval',esc(x.approvalStatusText||'\u2014')],['Amount',`<span class="amt">${money2(x.amount)}</span>`]]),
+  empty:'Submitted expense claims will appear here.'});
+
+/* ============================================================ Approvals ============================================================ */
+VIEWS.approvals=async function(){
+  const view=$('#view');view.innerHTML=skRows(4);
+  const d=await api('GET_PO_APPROVAL_LIST',withActor({}));
+  const rows=(d&&d.purchaseOrders)||[];
+  NAVBADGE.approvals=(d&&d.kpis&&d.kpis.pending)||rows.length;buildNav();$$('.nav-item').forEach(a=>a.classList.toggle('active',a.dataset.view==='approvals'));
+  if(!rows.length){view.innerHTML=`<div class="tablewrap"><div class="empty"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="24" height="24"><path d="M20 6 9 17l-5-5"/></svg></div><h4>You\u2019re all caught up</h4><p>No purchase orders are waiting on your approval.</p></div></div>`;return;}
+  view.innerHTML=`<div style="display:grid;gap:12px">${rows.map(p=>`<div class="panel" style="padding:16px 18px;display:flex;align-items:center;gap:16px" data-id="${esc(p.id)}">
+    <div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:10px"><span class="id">${esc(p.tranId)}</span>${badge(p.approvalStatusText||p.status)}</div>
+      <div style="color:var(--ink-2);font-size:13px;margin-top:5px">${esc(p.vendorName||'')}${p.departmentText?' \u00b7 '+esc(p.departmentText):''}</div></div>
+    <div style="text-align:right"><div class="amt" style="font-size:19px">${money(p.amount)}</div><div style="color:var(--ink-3);font-size:12px">${fdate(p.dateISO||p.date)}</div></div>
+    <div style="display:flex;gap:8px"><button class="btn btn-brass btn-sm" data-act="approve">Approve</button><button class="btn btn-ghost btn-sm" data-act="reject">Return</button></div></div>`).join('')}</div>`;
+  view.querySelectorAll('[data-id]').forEach(card=>card.addEventListener('click',async e=>{
+    const btn=e.target.closest('[data-act]');const id=card.dataset.id;
+    if(btn){e.stopPropagation();const approve=btn.dataset.act==='approve';
+      btn.disabled=true;btn.textContent=approve?'Approving\u2026':'Returning\u2026';
+      try{await api(approve?'APPROVE_PO_PORTAL':'REJECT_PO_PORTAL',withActor({poId:id,transactionId:id,id}));
+        toast((approve?'Approved':'Returned')+' '+ (card.querySelector('.id').textContent),approve);VIEWS.approvals();}
+      catch(err){toast(err.message||'Action failed');btn.disabled=false;btn.textContent=approve?'Approve':'Return';}
+      return;}
+    openPO(id);
+  }));
+};
+
+/* ============================================================ Budgets ============================================================ */
+VIEWS.budget=async function(){
+  const view=$('#view');view.innerHTML=skRows(5);
+  const d=await api('GET_BUDGET_CONTROL_DATA',withActor({}));
+  const rows=(d&&d.rows)||[];
+  if(!rows.length){view.innerHTML=emptyState('No budget lines','Budget allocations will appear here once configured.');return;}
+  view.innerHTML=`<div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px">${rows.map(x=>{
+    const used=num(x.committed)+num(x.spent);const alloc=num(x.budget);const pct=Math.min(100,alloc>0?used/alloc*100:0);const over=used>alloc&&alloc>0;
+    const col=over?'var(--red)':pct>85?'var(--amber)':'var(--teal)';const pctUsed=x.percentUsed!=null?x.percentUsed:Math.round(pct);
+    return `<div class="panel" style="padding:18px"><div style="display:flex;align-items:center;justify-content:space-between">
+      <div><div class="eyebrow">${esc(x.status||'Budget')}</div><div style="font-family:var(--font-mono);font-weight:700;font-size:14px;margin-top:3px">${esc(x.dept||'\u2014')}</div></div>
+      <span class="badge-s ${over?'s-red':pct>85?'s-amber':'s-green'}"><span class="d"></span>${pctUsed}% used</span></div>
+      <div class="meter" style="margin-top:16px"><i style="width:${pct}%;background:${col}"></i></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--ink-3);margin-top:6px"><span>${money(used)} used</span><span>${money(alloc)}</span></div>
+      <div class="kv" style="margin-top:16px;grid-template-columns:1fr 1fr">
+        <div><dt>Committed</dt><dd class="amt" style="font-size:15px">${kMoney(x.committed)}</dd></div>
+        <div><dt>Available</dt><dd class="amt" style="font-size:15px;color:${num(x.available)<0?'var(--red)':'inherit'}">${kMoney(x.available)}</dd></div>
+      </div></div>`;}).join('')}</div>`;
+};
+
+/* ============================================================ Drawers ============================================================ */
+const scrim=$('#scrim'),drawer=$('#drawer');
+function closeDrawer(){drawer.classList.remove('on');scrim.classList.remove('on');}
+scrim.addEventListener('click',closeDrawer);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});
+function showDrawer(html){drawer.innerHTML=html;drawer.classList.add('on');scrim.classList.add('on');const x=drawer.querySelector('.x');if(x)x.addEventListener('click',closeDrawer);}
+const closeBtn=`<button class="x" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M18 6 6 18M6 6l12 12"/></svg></button>`;
+
+async function openPO(id,rowHint){
+  showDrawer(`<div class="dh"><div><div class="eyebrow">Purchase order</div>
+      <div style="font-family:var(--font-display);font-weight:600;font-size:20px;margin-top:2px">${esc(rowHint&&rowHint.tranId||'Loading\u2026')}</div>
+      ${rowHint?`<div style="margin-top:8px">${badge(rowHint.status)}</div>`:''}</div>${closeBtn}</div>
+    <div class="db" id="poBody">${skRows(3)}</div>`);
+  drawer.querySelector('.x').addEventListener('click',closeDrawer);
+  let detail=null;try{detail=await api('GET_PO_DETAIL',withActor({poId:id,transactionId:id,id}));}catch(e){}
+  const p=Object.assign({},rowHint||{},detail||{});
+  const lines=(detail&&(detail.lines||detail.items))||[];
+  const sub=lines.length?lines.reduce((s,l)=>s+num(l.amount),0):num(p.amount);
+  $('#poBody').innerHTML=`
+    <dl class="kv">
+      <dt>Vendor</dt><dd>${esc(p.vendorName||p.vendor||'\u2014')}</dd>
+      <dt>Department</dt><dd>${esc(p.departmentText||'\u2014')}</dd>
+      <dt>Status</dt><dd>${badge(p.status)}</dd>
+      <dt>Order date</dt><dd>${fdate(p.dateISO||p.date)}</dd>
+      <dt>Currency</dt><dd>${esc(p.currencyText||'MUR')}</dd>
+      ${p.approvalStatusText?`<dt>Approval</dt><dd>${esc(p.approvalStatusText)}</dd>`:''}
+    </dl>
+    ${lines.length?`<div class="section-t">Line items</div>${lines.map(l=>`<div class="lineitem"><div class="r1"><b>${esc(l.description||l.item||l.itemText||l.name||'Item')}</b><span class="amt">${money2(l.amount)}</span></div><div class="r2"><span>${num(l.quantity||l.qty)} \u00d7 ${money2(l.rate)}</span><span>${esc(l.departmentText||'')}</span></div></div>`).join('')}`:''}
+    <div class="totbar"><span>Total</span><span class="amt">${money2(sub)}</span></div>`;
+}
+function openGeneric(kind,id,kv){
+  showDrawer(`<div class="dh"><div><div class="eyebrow">${esc(kind)}</div><div style="font-family:var(--font-display);font-weight:600;font-size:20px;margin-top:2px">${esc(id)}</div></div>${closeBtn}</div>
+    <div class="db"><dl class="kv">${kv.map(([k,v])=>`<dt>${esc(k)}</dt><dd>${v}</dd>`).join('')}</dl></div>`);
+}
+
+/* ---------- New Purchase Order — NetSuite-style screen ---------- */
+const PO_CSS=`
+<style id="poFormCss">
+.po-form{max-width:1100px}
+.po-card{background:var(--surface);border:1px solid var(--hair);border-radius:var(--r-lg);box-shadow:var(--sh-1);margin-bottom:16px}
+.po-card .hd{padding:14px 18px;border-bottom:1px solid var(--hair);display:flex;align-items:center;gap:10px}
+.po-card .hd h3{font-family:var(--font-display);font-weight:600;font-size:15px;margin:0}
+.po-card .bd{padding:18px}
+.po-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.po-grid .full{grid-column:1/-1}
+.pf label{display:block;font-size:12px;font-weight:600;color:var(--ink-2);margin-bottom:6px}
+.pf label .req{color:var(--red);margin-left:2px}
+.pf .ro{padding:11px 12px;border:1px dashed var(--hair);border-radius:var(--r-md);background:var(--surface-2);color:var(--ink-2);font-size:14px}
+.litable{width:100%;border-collapse:collapse}
+.litable th{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:700;text-align:left;padding:10px 10px;border-bottom:1px solid var(--hair);background:#FBFCFD}
+.litable th.num,.litable td.num{text-align:right}
+.litable td{padding:8px 10px;border-bottom:1px solid var(--hair);vertical-align:middle}
+.litable select,.litable input{width:100%;padding:8px 9px;border:1px solid var(--hair);border-radius:8px;font-family:inherit;font-size:13px;background:var(--surface)}
+.litable input.num{text-align:right;font-variant-numeric:tabular-nums}
+.litable .units{color:var(--ink-3);font-size:12.5px;white-space:nowrap}
+.litable .amt{font-family:var(--font-display);font-variant-numeric:tabular-nums}
+.litable .del{border:none;background:transparent;color:var(--ink-3);padding:6px;border-radius:8px;cursor:pointer}
+.litable .del:hover{background:var(--red-soft);color:var(--red)}
+.po-foot{display:flex;align-items:center;gap:12px;padding:16px 18px;border-top:1px solid var(--hair)}
+.po-total{margin-left:auto;text-align:right}
+.po-total .l{font-size:12px;color:var(--ink-3)}
+.po-total .v{font-family:var(--font-display);font-size:22px;font-weight:600;font-variant-numeric:tabular-nums}
+.addline{display:inline-flex;align-items:center;gap:7px;margin-top:12px;background:transparent;border:1px dashed var(--hair);border-radius:10px;padding:9px 13px;font-weight:600;font-size:13px;color:var(--ink-2);cursor:pointer}
+.addline:hover{background:var(--surface-2);color:var(--ink)}
+@media(max-width:860px){.po-grid{grid-template-columns:1fr}.litable{display:block;overflow-x:auto}}
+</style>`;
+
+const PONEW={boot:null,items:[],lines:[],currencyText:'MUR',taxCodes:[]};
+const optList=(arr)=>['<option value="">Select\u2026</option>'].concat((arr||[]).map(o=>{
+  const v=o.value!=null?o.value:(o.id!=null?o.id:o);const t=o.text!=null?o.text:(o.name!=null?o.name:o);
+  return `<option value="${esc(v)}">${esc(t)}</option>`;})).join('');
+
+VIEWS.newpo=async function(){
+  const view=$('#view');view.innerHTML=`${skKpis()}`;
+  let boot;
+  try{boot=await api('GET_PO_CREATE_BOOTSTRAP',withActor({}));}
+  catch(e){view.innerHTML=connState(e);return;}
+  PONEW.boot=boot;PONEW.items=boot.items||[];PONEW.currencyText=boot.vendorCurrencyText||'MUR';
+  try{const tc=await api('GET_PO_TAX_CODES',withActor({}));PONEW.taxCodes=(tc&&tc.taxCodes)||[];}catch(_){PONEW.taxCodes=[];}
+  PONEW.lines=[];
+  const ce=boot.currentEmployee||{};
+  const showSub=(boot.subsidiaries||[]).length>1;
+  const today=new Date().toISOString().slice(0,10);
+  view.innerHTML=PO_CSS+`
+  <div class="po-form">
+    <div class="po-card">
+      <div class="hd"><h3>Primary information</h3><span style="margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--ink-3)">NEW \u00b7 PURCHASE ORDER</span></div>
+      <div class="bd pf">
+        <div class="po-grid">
+          <div><label>Vendor<span class="req">*</span></label><select id="poVendor">${optList(boot.vendors)}</select></div>
+          <div><label>Currency</label><div class="ro" id="poCur">${esc(PONEW.currencyText)}</div></div>
+          <div><label>Date</label><input type="date" id="poDate" value="${today}"></div>
+          ${showSub?`<div><label>Subsidiary</label><select id="poSub">${optList(boot.subsidiaries)}</select></div>`:''}
+          <div><label>Department</label><select id="poDept">${optList(boot.departments)}</select></div>
+          <div><label>Location</label><select id="poLoc">${optList(boot.locations)}</select></div>
+          <div><label>Expenditure type</label><select id="poExpType"><option value="">Select\u2026</option></select></div>
+          <div><label>Budget code</label><select id="poBudgetCode"><option value="">Select\u2026</option></select></div>
+          <div class="full"><label>Memo</label><textarea id="poMemo" rows="2" placeholder="Purpose of this order"></textarea></div>
+          <div class="full"><label>Requested by</label><div class="ro">${esc(ce.name||SESSION.name||'\u2014')}</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="po-card">
+      <div class="hd"><h3>Items</h3></div>
+      <div class="bd" style="padding:0">
+        <table class="litable"><thead><tr>
+          <th style="width:34%">Item</th><th class="num" style="width:11%">Quantity</th><th style="width:11%">Units</th>
+          <th class="num" style="width:15%">Rate</th><th class="num" style="width:16%">Amount</th>
+          <th style="width:16%">Department</th>${PONEW.taxCodes.length?'<th style="width:14%">Tax code</th>':''}<th style="width:40px"></th>
+        </tr></thead><tbody id="poLines"></tbody></table>
+        <div style="padding:12px 16px"><button class="addline" id="poAddLine"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M12 5v14M5 12h14"/></svg>Add item line</button></div>
+      </div>
+      <div class="po-foot">
+        <div style="color:var(--ink-3);font-size:12.5px" id="poMsg2"></div>
+        <div class="po-total"><div class="l">Total (<span id="poCur2">${esc(PONEW.currencyText)}</span>)</div><div class="v" id="poTotal">${money2(0)}</div></div>
+      </div>
+    </div>
+
+    <div class="po-card">
+      <div class="hd"><h3>Budget check</h3><span style="margin-left:auto"><button class="btn btn-ghost btn-sm" id="poBudgetBtn">Check budget</button></span></div>
+      <div class="bd" id="poBudget"><div style="color:var(--ink-3);font-size:13px">Run a budget check to see available balance per line before submitting (FR-203).</div></div>
+    </div>
+
+    <div class="login-err" id="poErr"></div>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-brass" id="poSubmit">Submit for approval</button>
+      <button class="btn btn-ghost" id="poCancel">Cancel</button>
+    </div>
+  </div>`;
+  PONEW.budget=null;
+  // FR-201: CAPEX/OPEX/WIP expenditure type + budget code (custom list/records).
+  (async()=>{try{const c=await api('GET_PO_CLASSIFICATIONS',withActor({}));
+    const et=$('#poExpType'),bc=$('#poBudgetCode');
+    if(et&&c&&c.expenditureTypes)et.innerHTML='<option value="">Select\u2026</option>'+optList(c.expenditureTypes).replace('<option value="">Select\u2026</option>','');
+    if(bc&&c&&c.budgetCodes)bc.innerHTML='<option value="">Select\u2026</option>'+optList(c.budgetCodes).replace('<option value="">Select\u2026</option>','');
+  }catch(_){}})();
+
+  const linesEl=$('#poLines');
+  function itemOpts(){return optList(PONEW.items.map(i=>({value:i.value,text:i.displayName?`${i.text} \u2014 ${i.displayName}`:i.text})));}
+  function taxOpts(){return optList(PONEW.taxCodes);}
+  function addLine(){
+    const id='L'+Math.random().toString(36).slice(2,8);
+    PONEW.lines.push({key:id,itemId:'',quantity:1,rate:0,units:'',departmentId:$('#poDept')?$('#poDept').value:'',taxCode:''});
+    const tr=el(`<tr data-k="${id}">
+      <td><select class="li-item">${itemOpts()}</select></td>
+      <td class="num"><input class="num li-qty" type="number" min="0" step="1" value="1"></td>
+      <td><span class="units li-units">\u2014</span></td>
+      <td class="num"><input class="num li-rate" type="number" min="0" step="0.01" value="0"></td>
+      <td class="num"><span class="amt li-amt">${money2(0)}</span></td>
+      <td><select class="li-dept">${optList(PONEW.boot.departments)}</select></td>
+      ${PONEW.taxCodes.length?`<td><select class="li-tax">${taxOpts()}</select></td>`:''}
+      <td><button class="del" title="Remove line" aria-label="Remove line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></td>
+    </tr>`);
+    linesEl.appendChild(tr);
+    const L=PONEW.lines[PONEW.lines.length-1];
+    const q=tr.querySelector('.li-qty'),rt=tr.querySelector('.li-rate'),am=tr.querySelector('.li-amt'),
+          it=tr.querySelector('.li-item'),un=tr.querySelector('.li-units'),dp=tr.querySelector('.li-dept'),tx=tr.querySelector('.li-tax');
+    if(dp&&L.departmentId)dp.value=L.departmentId;
+    function recalc(){L.quantity=num(q.value);L.rate=num(rt.value);am.textContent=money2(L.quantity*L.rate);total();}
+    it.addEventListener('change',()=>{L.itemId=it.value;const meta=PONEW.items.find(x=>String(x.value)===String(it.value));
+      if(meta){if(meta.purchaseRate){rt.value=meta.purchaseRate;}un.textContent=meta.purchaseUnitText||'\u2014';L.units=meta.purchaseUnitText||'';
+        if(meta.departmentId&&dp){dp.value=meta.departmentId;L.departmentId=meta.departmentId;}}recalc();});
+    q.addEventListener('input',recalc);rt.addEventListener('input',recalc);
+    if(dp)dp.addEventListener('change',()=>L.departmentId=dp.value);
+    if(tx)tx.addEventListener('change',()=>L.taxCode=tx.value);
+    tr.querySelector('.del').addEventListener('click',()=>{PONEW.lines=PONEW.lines.filter(x=>x.key!==id);tr.remove();total();});
+    total();
+  }
+  function total(){const t=PONEW.lines.reduce((s,l)=>s+num(l.quantity)*num(l.rate),0);$('#poTotal').textContent=money2(t);}
+  $('#poAddLine').addEventListener('click',addLine);
+  addLine(); // start with one line, like a fresh NetSuite PO
+
+  // Vendor drives currency + item defaults (NetSuite behaviour): refetch on change.
+  $('#poVendor').addEventListener('change',async()=>{
+    const vId=$('#poVendor').value;if(!vId)return;
+    try{const b2=await api('GET_PO_CREATE_BOOTSTRAP',withActor({vendorId:vId}));
+      PONEW.items=b2.items||PONEW.items;PONEW.currencyText=b2.vendorCurrencyText||PONEW.currencyText;
+      $('#poCur').textContent=PONEW.currencyText;$('#poCur2').textContent=PONEW.currencyText;
+      // refresh item option lists in existing rows, keep selections where still valid
+      $$('#poLines .li-item').forEach(sel=>{const cur=sel.value;sel.innerHTML=itemOpts();sel.value=cur;});
+    }catch(_){}
+  });
+
+  function poLinesPayload(){return PONEW.lines.filter(l=>l.itemId&&num(l.quantity)>0).map(l=>({itemId:l.itemId,quantity:num(l.quantity),rate:num(l.rate),departmentId:l.departmentId||'',locationId:$('#poLoc')?$('#poLoc').value:'',taxCode:l.taxCode||''}));}
+  async function runBudgetCheck(){
+    const lines=poLinesPayload();const box=$('#poBudget');
+    if(!lines.length){box.innerHTML='<div style="color:var(--ink-3);font-size:13px">Add at least one item line first.</div>';return null;}
+    box.innerHTML=skRows(2);
+    let d;try{d=await api('GET_PO_BUDGET_CHECK',withActor({lines,subsidiaryId:$('#poSub')?$('#poSub').value:'',tranDate:$('#poDate').value,currencyId:''}));}
+    catch(e){box.innerHTML=`<div class="login-err on">${esc(e.message)}</div>`;return null;}
+    PONEW.budget=d;
+    const rows=(d&&d.lines)||[];
+    const sev=(st)=>st==='over'?'s-red':st==='warning'?'s-amber':'s-green';
+    box.innerHTML=(!rows.length?`<div style="color:var(--ink-3);font-size:13px">${esc(d&&d.message||'No budgets matched these lines.')}</div>`:
+      `<table class="litable"><thead><tr><th style="width:34%">Account / line</th><th class="num">Budget</th><th class="num">Consumed</th><th class="num">Remaining</th><th>Status</th></tr></thead>
+       <tbody>${rows.map(l=>`<tr><td>${esc(l.accountText||l.description||'\u2014')}</td><td class="num amt">${money2(l.budgetAmount)}</td><td class="num amt">${money2(l.consumedAmount)}</td>
+         <td class="num amt" style="color:${num(l.remaining)<0?'var(--red)':'inherit'}">${money2(l.remaining)}</td>
+         <td><span class="badge-s ${sev(l.status)}"><span class="d"></span>${l.status==='over'?'Over budget':l.status==='warning'?'Watch':'OK'}</span></td></tr>`).join('')}</tbody></table>`)
+      +(d&&d.hasBlocking?`<div style="margin-top:14px"><label style="display:block;font-size:12.5px;font-weight:600;color:var(--red);margin-bottom:6px">Over budget \u2014 reason to proceed (required)</label>
+         <textarea id="poOverride" rows="2" placeholder="Explain why this over-budget PO should proceed"></textarea></div>`:'');
+    return d;
+  }
+  $('#poBudgetBtn').addEventListener('click',runBudgetCheck);
+  $('#poCancel').addEventListener('click',()=>{location.hash='po';});
+  $('#poSubmit').addEventListener('click',async()=>{
+    const err=$('#poErr');err.classList.remove('on');
+    const vendorId=$('#poVendor').value;
+    if(!vendorId){err.textContent='Select a vendor.';err.classList.add('on');return;}
+    const lines=PONEW.lines.filter(l=>l.itemId&&num(l.quantity)>0).map(l=>({itemId:l.itemId,quantity:num(l.quantity),rate:num(l.rate),departmentId:l.departmentId||'',locationId:$('#poLoc')?$('#poLoc').value:'',taxCode:l.taxCode||''}));
+    if(!lines.length){err.textContent='Add at least one item with a quantity.';err.classList.add('on');return;}
+    // FR-203: if a budget check flagged an over-budget line, require a reason before proceeding.
+    let overrideReason='';
+    if(PONEW.budget&&PONEW.budget.hasBlocking){
+      overrideReason=($('#poOverride')&&$('#poOverride').value||'').trim();
+      if(!overrideReason){err.textContent='This PO exceeds available budget \u2014 enter a reason to proceed, or adjust the lines.';err.classList.add('on');
+        try{$('#poOverride').focus();}catch(_){}
+        return;}
+    }
+    const header={vendorId,subsidiaryId:$('#poSub')?$('#poSub').value:'',tranDate:$('#poDate').value,
+      memo:$('#poMemo').value,budgetOverrideReason:overrideReason,
+      expenditureType:$('#poExpType')?$('#poExpType').value:'',budgetCode:$('#poBudgetCode')?$('#poBudgetCode').value:'',
+      departmentId:$('#poDept')?$('#poDept').value:'',locationId:$('#poLoc')?$('#poLoc').value:''};
+    const btn=$('#poSubmit');btn.disabled=true;btn.textContent='Submitting\u2026';
+    try{await api('CREATE_PURCHASE_ORDER_PORTAL',withActor({header,lines,budgetOverrideReason:overrideReason}));
+      toast('Submitted purchase order for approval',true);location.hash='po';}
+    catch(e){err.textContent=e.message||'Could not create the purchase order.';err.classList.add('on');btn.disabled=false;btn.textContent='Submit for approval';}
+  });
+};
+
+/* ---------- New Vendor Bill — standalone or from PO (NetSuite-style) ---------- */
+const NEWBILL={mode:'blank',boot:null,lines:[]};
+VIEWS.newbill=async function(){
+  const view=$('#view');view.innerHTML=`${skKpis()}`;
+  let boot;try{boot=await api('GET_VENDOR_BILL_CREATE_BOOTSTRAP',withActor({}));}
+  catch(e){view.innerHTML=connState(e);return;}
+  NEWBILL.boot=boot;NEWBILL.lines=[];
+  const pos=boot.purchaseOrders||[],vendors=boot.vendors||[],depts=boot.departments||[],locs=boot.locations||[],
+        currencies=boot.currencies||[],accounts=boot.expenseAccounts||[],items=boot.items||[];
+  const showSub=(boot.subsidiaries||[]).length>1;
+  const today=new Date().toISOString().slice(0,10);
+  const mode=NEWBILL.mode||'blank';
+  const optL=(arr)=>optList(arr); // reuse New PO helper
+
+  view.innerHTML=PO_CSS+`
+  <div class="po-form">
+    <div class="seg" style="margin-bottom:16px" id="billMode">
+      <button data-m="po" class="${mode==='po'?'on':''}">From purchase order</button>
+      <button data-m="blank" class="${mode==='blank'?'on':''}">Blank bill</button>
+    </div>
+
+    <div class="po-card">
+      <div class="hd"><h3>Primary information</h3><span style="margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--ink-3)">NEW \u00b7 VENDOR BILL</span></div>
+      <div class="bd pf">
+        <div class="po-grid">
+          <div id="poPickWrap" style="${mode==='po'?'':'display:none'}"><label>Purchase order<span class="req">*</span></label><select id="billPo">${optL(pos.map(p=>({value:p.id,text:p.tranId+(p.vendorName?' \u2014 '+p.vendorName:'')})))}</select></div>
+          <div id="vendorWrap" style="${mode==='blank'?'':'display:none'}"><label>Vendor<span class="req">*</span></label><select id="billVendor">${optL(vendors)}</select></div>
+          <div><label>Reference No. (supplier invoice #)<span class="req">*</span></label><input type="text" id="billRef" placeholder="e.g. INV-20418"></div>
+          <div><label>Bill date</label><input type="date" id="billDate" value="${today}"></div>
+          <div><label>Due date</label><input type="date" id="billDue"></div>
+          <div class="blankonly" style="${mode==='blank'?'':'display:none'}"><label>Currency</label><select id="billCur">${optL(currencies)}</select></div>
+          <div class="blankonly" style="${mode==='blank'?'':'display:none'}"><label>Department</label><select id="billDept">${optL(depts)}</select></div>
+          <div class="blankonly" style="${mode==='blank'?'':'display:none'}"><label>Location</label><select id="billLoc">${optL(locs)}</select></div>
+          ${showSub?`<div class="blankonly" style="${mode==='blank'?'':'display:none'}"><label>Subsidiary</label><select id="billSub">${optL(boot.subsidiaries)}</select></div>`:''}
+          <div class="full"><label>Memo</label><textarea id="billMemo" rows="2" placeholder="Note for this bill"></textarea></div>
+        </div>
+        <div id="poSummary" style="${mode==='po'?'':'display:none'};margin-top:4px"></div>
+      </div>
+    </div>
+
+    <div class="po-card blankonly" id="billLinesCard" style="${mode==='blank'?'':'display:none'}">
+      <div class="hd"><h3>Expenses &amp; items</h3></div>
+      <div class="bd" style="padding:0">
+        <table class="litable"><thead><tr>
+          <th style="width:12%">Type</th><th style="width:30%">Item / Account</th><th class="num" style="width:10%">Qty</th>
+          <th class="num" style="width:14%">Rate</th><th class="num" style="width:16%">Amount</th><th style="width:16%">Department</th><th style="width:40px"></th>
+        </tr></thead><tbody id="billLines"></tbody></table>
+        <div style="padding:12px 16px"><button class="addline" id="billAddLine"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M12 5v14M5 12h14"/></svg>Add line</button></div>
+      </div>
+      <div class="po-foot"><div class="po-total"><div class="l">Total</div><div class="v" id="billTotal">${money2(0)}</div></div></div>
+    </div>
+
+    <div class="login-err" id="billErr"></div>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-brass" id="billSubmit">Submit for approval</button>
+      <button class="btn btn-ghost" id="billCancel">Cancel</button>
+    </div>
+  </div>`;
+
+  // mode toggle
+  function setMode(m){NEWBILL.mode=m;$$('#billMode button').forEach(b=>b.classList.toggle('on',b.dataset.m===m));
+    $('#poPickWrap').style.display=m==='po'?'':'none';$('#vendorWrap').style.display=m==='blank'?'':'none';
+    $('#poSummary').style.display=m==='po'?'':'none';$('#billLinesCard').style.display=m==='blank'?'':'none';
+    $$('.blankonly').forEach(n=>n.style.display=m==='blank'?'':'none');}
+  $('#billMode').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(b)setMode(b.dataset.m);});
+
+  // from-PO summary
+  $('#billPo').addEventListener('change',()=>{const p=pos.find(x=>String(x.id)===String($('#billPo').value));
+    $('#poSummary').innerHTML=p?`<div class="lineitem"><div class="r1"><b>${esc(p.tranId)}</b><span class="amt">${money2(p.amount)}</span></div><div class="r2"><span>${esc(p.vendorName||'')}</span><span>All billable lines will be pulled from this PO</span></div></div>`:'';});
+
+  // blank line grid (item OR expense per line)
+  const linesEl=$('#billLines');
+  function itemOpts(){return optList(items.map(i=>({value:i.value,text:i.displayName?`${i.text} \u2014 ${i.displayName}`:i.text})));}
+  function acctOpts(){return optList(accounts);}
+  function total(){$('#billTotal').textContent=money2(NEWBILL.lines.reduce((s,l)=>s+num(l.amount),0));}
+  function addLine(){
+    const id='B'+Math.random().toString(36).slice(2,8);
+    const L={key:id,type:'item',itemId:'',accountId:'',quantity:1,rate:0,amount:0,departmentId:''};
+    NEWBILL.lines.push(L);
+    const tr=el(`<tr data-k="${id}">
+      <td><select class="bl-type"><option value="item">Item</option><option value="expense">Expense</option></select></td>
+      <td><select class="bl-src">${itemOpts()}</select></td>
+      <td class="num"><input class="num bl-qty" type="number" min="0" step="1" value="1"></td>
+      <td class="num"><input class="num bl-rate" type="number" min="0" step="0.01" value="0"></td>
+      <td class="num"><input class="num bl-amt" type="number" min="0" step="0.01" value="0" style="display:none"><span class="amt bl-amtd">${money2(0)}</span></td>
+      <td><select class="bl-dept">${optList(depts)}</select></td>
+      <td><button class="del" title="Remove line" aria-label="Remove line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></td>
+    </tr>`);
+    linesEl.appendChild(tr);
+    const ty=tr.querySelector('.bl-type'),src=tr.querySelector('.bl-src'),q=tr.querySelector('.bl-qty'),
+          rt=tr.querySelector('.bl-rate'),amI=tr.querySelector('.bl-amt'),amD=tr.querySelector('.bl-amtd'),dp=tr.querySelector('.bl-dept');
+    function recalc(){if(L.type==='item'){L.quantity=num(q.value);L.rate=num(rt.value);L.amount=L.quantity*L.rate;amD.textContent=money2(L.amount);}
+      else{L.amount=num(amI.value);amD.textContent=money2(L.amount);}total();}
+    ty.addEventListener('change',()=>{L.type=ty.value;
+      if(L.type==='item'){src.innerHTML=itemOpts();q.parentElement.style.visibility='';rt.parentElement.style.visibility='';amI.style.display='none';amD.style.display='';L.accountId='';}
+      else{src.innerHTML=acctOpts();q.value='';rt.value='';q.parentElement.style.visibility='hidden';rt.parentElement.style.visibility='hidden';amI.style.display='';amI.value='0';amD.style.display='none';L.itemId='';}
+      L.amount=0;recalc();});
+    src.addEventListener('change',()=>{if(L.type==='item'){L.itemId=src.value;const meta=items.find(x=>String(x.value)===String(src.value));
+        if(meta){if(meta.purchaseRate)rt.value=meta.purchaseRate;if(meta.departmentId){dp.value=meta.departmentId;L.departmentId=meta.departmentId;}}}
+      else{L.accountId=src.value;}recalc();});
+    q.addEventListener('input',recalc);rt.addEventListener('input',recalc);amI.addEventListener('input',recalc);
+    dp.addEventListener('change',()=>L.departmentId=dp.value);
+    tr.querySelector('.del').addEventListener('click',()=>{NEWBILL.lines=NEWBILL.lines.filter(x=>x.key!==id);tr.remove();total();});
+    recalc();
+  }
+  $('#billAddLine').addEventListener('click',addLine);
+  addLine();
+
+  $('#billCancel').addEventListener('click',()=>{location.hash='bill';});
+  $('#billSubmit').addEventListener('click',async()=>{
+    const err=$('#billErr');err.classList.remove('on');
+    const ref=$('#billRef').value.trim();
+    if(!ref){err.textContent='Reference No. (supplier invoice number) is required.';err.classList.add('on');return;}
+    const common={referenceNo:ref,billDate:$('#billDate').value,dueDate:$('#billDue').value,memo:$('#billMemo').value};
+    let payload;
+    if(NEWBILL.mode==='po'){
+      const poId=$('#billPo').value;if(!poId){err.textContent='Select a purchase order to bill.';err.classList.add('on');return;}
+      payload=Object.assign({poId},common);
+    }else{
+      const vendorId=$('#billVendor').value;if(!vendorId){err.textContent='Select a vendor.';err.classList.add('on');return;}
+      const lines=NEWBILL.lines.filter(l=>(l.type==='item'?l.itemId:l.accountId)&&num(l.amount)!==0).map(l=>l.type==='item'
+        ?{itemId:l.itemId,quantity:num(l.quantity),rate:num(l.rate),departmentId:l.departmentId||'',locationId:$('#billLoc')?$('#billLoc').value:''}
+        :{accountId:l.accountId,amount:num(l.amount),departmentId:l.departmentId||'',locationId:$('#billLoc')?$('#billLoc').value:''});
+      if(!lines.length){err.textContent='Add at least one line with an amount.';err.classList.add('on');return;}
+      payload=Object.assign({mode:'standalone',vendorId,currencyId:$('#billCur')?$('#billCur').value:'',
+        subsidiaryId:$('#billSub')?$('#billSub').value:'',departmentId:$('#billDept')?$('#billDept').value:'',
+        locationId:$('#billLoc')?$('#billLoc').value:'',lines},common);
+    }
+    const btn=$('#billSubmit');btn.disabled=true;btn.textContent='Submitting\u2026';
+    try{await api('CREATE_VENDOR_BILL_PORTAL',withActor(payload));toast('Vendor bill created',true);location.hash='bill';}
+    catch(e){err.textContent=e.message||'Could not create the vendor bill.';err.classList.add('on');btn.disabled=false;btn.textContent='Submit for approval';}
+  });
+};
+
+/* ---------- Receive Items (GRN) — create item receipt from an open PO ---------- */
+const NEWRCPT={po:null,lines:[]};
+VIEWS.newreceipt=async function(){
+  const view=$('#view');view.innerHTML=skRows(5);
+  let list;try{list=await api('GET_PO_RECEIVING_LIST',withActor({}));}catch(e){view.innerHTML=connState(e);return;}
+  const pos=(list&&list.purchaseOrders)||[];
+  view.innerHTML=PO_CSS+`
+  <div class="po-form">
+    <div class="po-card">
+      <div class="hd"><h3>Receive against a purchase order</h3><span style="margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--ink-3)">GOODS RECEIPT</span></div>
+      <div class="bd pf">
+        <div class="po-grid">
+          <div><label>Purchase order<span class="req">*</span></label><select id="rcPo">${optList(pos.map(p=>({value:p.id,text:(p.tranId||('PO '+p.id))+(p.vendorName?' \u2014 '+p.vendorName:'')})))}</select></div>
+          <div><label>Receipt date</label><input type="date" id="rcDate" value="${new Date().toISOString().slice(0,10)}"></div>
+          <div><label>Delivery / GRN ref</label><input type="text" id="rcRef" placeholder="Supplier delivery note #"></div>
+          <div class="full"><label>Memo</label><textarea id="rcMemo" rows="2" placeholder="Notes on this receipt"></textarea></div>
+        </div>
+      </div>
+    </div>
+    <div class="po-card" id="rcLinesCard" style="display:none">
+      <div class="hd"><h3>Lines to receive</h3></div>
+      <div class="bd" style="padding:0">
+        <table class="litable"><thead><tr><th style="width:44%">Item</th><th class="num" style="width:16%">On order</th><th class="num" style="width:16%">Received</th><th class="num" style="width:20%">Receive now</th></tr></thead>
+        <tbody id="rcLines"></tbody></table>
+      </div>
+    </div>
+    <div class="login-err" id="rcErr"></div>
+    <div style="display:flex;gap:10px"><button class="btn btn-brass" id="rcSubmit" disabled>Receive</button><button class="btn btn-ghost" id="rcCancel">Cancel</button></div>
+  </div>`;
+  const num0=(v)=>{const n=Number(v);return isNaN(n)?0:n;};
+  async function loadLines(poId){
+    const card=$('#rcLinesCard'),body=$('#rcLines');card.style.display='';body.innerHTML=`<tr><td colspan="4"><div class="sk" style="height:16px;width:40%"></div></td></tr>`;
+    let d;try{d=await api('GET_PO_RECEIVING_DETAIL',withActor({poId}));}catch(e){body.innerHTML=`<tr><td colspan="4"><span class="login-err on">${esc(e.message)}</span></td></tr>`;return;}
+    const lines=(d&&d.lines)||[];NEWRCPT.lines=[];
+    if(!lines.length){body.innerHTML=`<tr><td colspan="4" style="color:var(--ink-3)">Nothing left to receive on this PO.</td></tr>`;$('#rcSubmit').disabled=true;return;}
+    body.innerHTML='';
+    lines.forEach((ln,idx)=>{
+      const onOrder=num0(ln.quantityOnOrder!=null?ln.quantityOnOrder:ln.quantity);
+      const recvd=num0(ln.quantityReceived);
+      const remaining=ln.quantityRemaining!=null?num0(ln.quantityRemaining):Math.max(0,onOrder-recvd);
+      const lineIndex=ln.line!=null?ln.line:idx;
+      NEWRCPT.lines.push({line:lineIndex,itemId:ln.itemId||'',receiveQty:remaining});
+      const tr=el(`<tr><td>${esc(ln.itemName||ln.description||('Item '+(ln.itemId||'')))}</td>
+        <td class="num">${onOrder}</td><td class="num">${recvd}</td>
+        <td class="num"><input class="num rc-q" type="number" min="0" max="${remaining}" step="1" value="${remaining}" style="width:110px"></td></tr>`);
+      body.appendChild(tr);
+      const L=NEWRCPT.lines[NEWRCPT.lines.length-1];
+      tr.querySelector('.rc-q').addEventListener('input',e=>{L.receiveQty=num0(e.target.value);});
+    });
+    $('#rcSubmit').disabled=false;
+  }
+  $('#rcPo').addEventListener('change',()=>{const v=$('#rcPo').value;if(v)loadLines(v);else{$('#rcLinesCard').style.display='none';$('#rcSubmit').disabled=true;}});
+  $('#rcCancel').addEventListener('click',()=>{location.hash='receipt';});
+  $('#rcSubmit').addEventListener('click',async()=>{
+    const err=$('#rcErr');err.classList.remove('on');const poId=$('#rcPo').value;
+    if(!poId){err.textContent='Select a purchase order.';err.classList.add('on');return;}
+    const lines=NEWRCPT.lines.filter(l=>num0(l.receiveQty)>0);
+    if(!lines.length){err.textContent='Enter a quantity to receive on at least one line.';err.classList.add('on');return;}
+    const btn=$('#rcSubmit');btn.disabled=true;btn.textContent='Receiving\u2026';
+    try{await api('CREATE_ITEM_RECEIPT_FROM_PO',withActor({poId,tranDate:$('#rcDate').value,externalRef:$('#rcRef').value,memo:$('#rcMemo').value,lines}));
+      toast('Item receipt recorded',true);location.hash='receipt';}
+    catch(e){err.textContent=e.message||'Could not record the receipt.';err.classList.add('on');btn.disabled=false;btn.textContent='Receive';}
+  });
+};
+
+/* ---------- New Expense Report — petty cash / credit card / reimbursement ---------- */
+const NEWEXP={boot:null,lines:[]};
+VIEWS.newexpense=async function(){
+  const view=$('#view');view.innerHTML=skKpis();
+  let boot;try{boot=await api('GET_EXPENSE_REPORT_CREATE_BOOTSTRAP',withActor({}));}catch(e){view.innerHTML=connState(e);return;}
+  NEWEXP.boot=boot;NEWEXP.lines=[];
+  const employees=boot.employees||[],depts=boot.departments||[],currencies=boot.currencies||[],cats=boot.categories||[],subs=boot.subsidiaries||[];
+  const showSub=(subs||[]).length>1;const today=new Date().toISOString().slice(0,10);
+  const defEmp=String(SESSION.employeeId||'');
+  view.innerHTML=PO_CSS+`
+  <div class="po-form">
+    <div class="po-card">
+      <div class="hd"><h3>Primary information</h3><span style="margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--ink-3)">NEW \u00b7 EXPENSE REPORT</span></div>
+      <div class="bd pf"><div class="po-grid">
+        <div><label>Employee<span class="req">*</span></label><select id="exEmp">${optList(employees)}</select></div>
+        <div><label>Date</label><input type="date" id="exDate" value="${today}"></div>
+        <div><label>Currency</label><select id="exCur">${optList(currencies)}</select></div>
+        ${showSub?`<div><label>Subsidiary</label><select id="exSub">${optList(subs)}</select></div>`:''}
+        <div><label>Department</label><select id="exDept">${optList(depts)}</select></div>
+        <div class="full"><label>Purpose / memo</label><textarea id="exMemo" rows="2" placeholder="Purpose of claim (e.g. petty cash, travel)"></textarea></div>
+      </div></div>
+    </div>
+    <div class="po-card">
+      <div class="hd"><h3>Expenses</h3></div>
+      <div class="bd" style="padding:0">
+        <table class="litable"><thead><tr><th style="width:26%">Category</th><th style="width:16%">Date</th><th class="num" style="width:16%">Amount</th><th style="width:18%">Department</th><th style="width:16%">Credit card</th><th style="width:40px"></th></tr></thead>
+        <tbody id="exLines"></tbody></table>
+        <div style="padding:12px 16px"><button class="addline" id="exAddLine"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M12 5v14M5 12h14"/></svg>Add expense line</button></div>
+      </div>
+      <div class="po-foot"><div class="po-total"><div class="l">Total</div><div class="v" id="exTotal">${money2(0)}</div></div></div>
+    </div>
+    <div class="login-err" id="exErr"></div>
+    <div style="display:flex;gap:10px"><button class="btn btn-brass" id="exSubmit">Submit expense report</button><button class="btn btn-ghost" id="exCancel">Cancel</button></div>
+  </div>`;
+  if(defEmp){try{$('#exEmp').value=defEmp;}catch(_){}}
+  const linesEl=$('#exLines');
+  function total(){$('#exTotal').textContent=money2(NEWEXP.lines.reduce((s,l)=>s+num(l.amount),0));}
+  function addLine(){
+    const id='E'+Math.random().toString(36).slice(2,8);
+    const L={key:id,categoryId:'',amount:0,expenseDate:$('#exDate').value,departmentId:$('#exDept')?$('#exDept').value:'',corporateCreditCard:false};
+    NEWEXP.lines.push(L);
+    const tr=el(`<tr data-k="${id}">
+      <td><select class="ex-cat">${optList(cats)}</select></td>
+      <td><input type="date" class="ex-date" value="${L.expenseDate}"></td>
+      <td class="num"><input class="num ex-amt" type="number" min="0" step="0.01" value="0"></td>
+      <td><select class="ex-dept">${optList(depts)}</select></td>
+      <td style="text-align:center"><input type="checkbox" class="ex-cc" title="Paid by corporate credit card"></td>
+      <td><button class="del" title="Remove line" aria-label="Remove line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></td>
+    </tr>`);
+    linesEl.appendChild(tr);
+    tr.querySelector('.ex-cat').addEventListener('change',e=>L.categoryId=e.target.value);
+    tr.querySelector('.ex-date').addEventListener('input',e=>L.expenseDate=e.target.value);
+    tr.querySelector('.ex-amt').addEventListener('input',e=>{L.amount=num(e.target.value);total();});
+    tr.querySelector('.ex-dept').addEventListener('change',e=>L.departmentId=e.target.value);
+    tr.querySelector('.ex-cc').addEventListener('change',e=>L.corporateCreditCard=e.target.checked);
+    tr.querySelector('.del').addEventListener('click',()=>{NEWEXP.lines=NEWEXP.lines.filter(x=>x.key!==id);tr.remove();total();});
+  }
+  $('#exAddLine').addEventListener('click',addLine);addLine();
+  $('#exCancel').addEventListener('click',()=>{location.hash='expense';});
+  $('#exSubmit').addEventListener('click',async()=>{
+    const err=$('#exErr');err.classList.remove('on');
+    const employeeId=$('#exEmp').value;if(!employeeId){err.textContent='Select an employee.';err.classList.add('on');return;}
+    const lines=NEWEXP.lines.filter(l=>l.categoryId&&num(l.amount)>0).map(l=>({categoryId:l.categoryId,amount:num(l.amount),expenseDate:l.expenseDate,departmentId:l.departmentId||'',corporateCreditCard:!!l.corporateCreditCard}));
+    if(!lines.length){err.textContent='Add at least one expense line with a category and amount.';err.classList.add('on');return;}
+    const header={employeeId,subsidiaryId:$('#exSub')?$('#exSub').value:'',departmentId:$('#exDept')?$('#exDept').value:'',currencyId:$('#exCur')?$('#exCur').value:'',tranDate:$('#exDate').value,memo:$('#exMemo').value};
+    const btn=$('#exSubmit');btn.disabled=true;btn.textContent='Submitting\u2026';
+    try{await api('CREATE_EXPENSE_REPORT_PORTAL',withActor({header,lines}));toast('Expense report submitted',true);location.hash='expense';}
+    catch(e){err.textContent=e.message||'Could not create the expense report.';err.classList.add('on');btn.disabled=false;btn.textContent='Submit expense report';}
+  });
+};
+
+/* =========================================================================
+   PROCURE-TO-PAY additions: Requisitions, Payment Requests, Employee Refund,
+   Vendor onboarding, Contract Register. All wired to NEW backend actions
+   (see README_new_backend_actions.md + classes_additions.js).
+   ========================================================================= */
+
+/* ---------- Purchase Requisitions ---------- */
+VIEWS.req=listView({action:'GET_REQUISITIONS_LIST',pick:d=>d&&d.requisitions,filters:['All','Pending Approval','Approved','Closed'],
+  actions:[{label:'New requisition',cls:'btn-primary',onClick:()=>{location.hash='newreq';}}],
+  cols:[{h:'Requisition'},{h:'Requested by'},{h:'Department'},{h:'Status'},{h:'Amount',num:true}],
+  row:r=>[`<div class="id">${esc(r.tranId)}</div><div class="sub">${fdate(r.dateISO||r.date)}</div>`,esc(r.employeeName||r.requestor||'\u2014'),esc(r.departmentText||'\u2014'),badge(r.status),`<span class="amt">${money(r.amount)}</span>`],
+  onRow:r=>openGeneric('Purchase requisition',r.tranId,[['Requested by',esc(r.employeeName||r.requestor||'\u2014')],['Department',esc(r.departmentText||'\u2014')],['Date',fdate(r.dateISO||r.date)],['Status',badge(r.status)],['Amount',`<span class="amt">${money2(r.amount)}</span>`]]),
+  empty:'Raise a requisition to formally request procurement (no budget commitment at this stage).'});
+
+const NEWREQ={boot:null,lines:[]};
+VIEWS.newreq=async function(){
+  const view=$('#view');view.innerHTML=skKpis();
+  let boot;try{boot=await api('GET_REQUISITION_BOOTSTRAP',withActor({}));}catch(e){view.innerHTML=connState(e);return;}
+  NEWREQ.boot=boot;NEWREQ.lines=[];
+  const items=boot.items||[],depts=boot.departments||[],locs=boot.locations||[],currencies=boot.currencies||[],subs=boot.subsidiaries||[];
+  const ce=boot.currentEmployee||{};const showSub=(subs||[]).length>1;const today=new Date().toISOString().slice(0,10);
+  view.innerHTML=PO_CSS+`
+  <div class="po-form">
+    <div class="po-card"><div class="hd"><h3>Primary information</h3><span style="margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--ink-3)">NEW \u00b7 REQUISITION</span></div>
+      <div class="bd pf"><div class="po-grid">
+        ${showSub?`<div><label>Company / subsidiary</label><select id="rqSub">${optList(subs)}</select></div>`:''}
+        <div><label>Date</label><input type="date" id="rqDate" value="${today}"></div>
+        <div><label>Department</label><select id="rqDept">${optList(depts)}</select></div>
+        <div><label>Location</label><select id="rqLoc">${optList(locs)}</select></div>
+        <div class="full"><label>Memo / justification</label><textarea id="rqMemo" rows="2" placeholder="Why is this needed?"></textarea></div>
+        <div class="full"><label>Requested by</label><div class="ro">${esc(ce.name||SESSION.name||'\u2014')}</div></div>
+      </div></div>
+    </div>
+    <div class="po-card"><div class="hd"><h3>Items requested</h3></div>
+      <div class="bd" style="padding:0"><table class="litable"><thead><tr><th style="width:40%">Item</th><th class="num" style="width:12%">Qty</th><th class="num" style="width:16%">Est. rate</th><th class="num" style="width:16%">Amount</th><th style="width:16%">Department</th><th style="width:40px"></th></tr></thead><tbody id="rqLines"></tbody></table>
+      <div style="padding:12px 16px"><button class="addline" id="rqAdd"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M12 5v14M5 12h14"/></svg>Add item</button></div></div>
+      <div class="po-foot"><div class="po-total"><div class="l">Estimated total</div><div class="v" id="rqTotal">${money2(0)}</div></div></div>
+    </div>
+    <div class="login-err" id="rqErr"></div>
+    <div style="display:flex;gap:10px"><button class="btn btn-brass" id="rqSubmit">Submit requisition</button><button class="btn btn-ghost" id="rqCancel">Cancel</button></div>
+  </div>`;
+  const linesEl=$('#rqLines');
+  function itemOpts(){return optList(items.map(i=>({value:i.value,text:i.displayName?`${i.text} \u2014 ${i.displayName}`:i.text})));}
+  function total(){$('#rqTotal').textContent=money2(NEWREQ.lines.reduce((s,l)=>s+num(l.quantity)*num(l.rate),0));}
+  function addLine(){
+    const id='R'+Math.random().toString(36).slice(2,8);const L={key:id,itemId:'',quantity:1,rate:0,departmentId:$('#rqDept')?$('#rqDept').value:''};NEWREQ.lines.push(L);
+    const tr=el(`<tr data-k="${id}"><td><select class="rq-item">${itemOpts()}</select></td><td class="num"><input class="num rq-q" type="number" min="0" step="1" value="1"></td><td class="num"><input class="num rq-r" type="number" min="0" step="0.01" value="0"></td><td class="num"><span class="amt rq-a">${money2(0)}</span></td><td><select class="rq-d">${optList(depts)}</select></td><td><button class="del"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></td></tr>`);
+    linesEl.appendChild(tr);
+    const it=tr.querySelector('.rq-item'),q=tr.querySelector('.rq-q'),rt=tr.querySelector('.rq-r'),a=tr.querySelector('.rq-a'),d=tr.querySelector('.rq-d');
+    function rc(){L.quantity=num(q.value);L.rate=num(rt.value);a.textContent=money2(L.quantity*L.rate);total();}
+    it.addEventListener('change',()=>{L.itemId=it.value;const m=items.find(x=>String(x.value)===String(it.value));if(m){if(m.purchaseRate)rt.value=m.purchaseRate;if(m.departmentId){d.value=m.departmentId;L.departmentId=m.departmentId;}}rc();});
+    q.addEventListener('input',rc);rt.addEventListener('input',rc);d.addEventListener('change',()=>L.departmentId=d.value);
+    tr.querySelector('.del').addEventListener('click',()=>{NEWREQ.lines=NEWREQ.lines.filter(x=>x.key!==id);tr.remove();total();});
+  }
+  $('#rqAdd').addEventListener('click',addLine);addLine();
+  $('#rqCancel').addEventListener('click',()=>{location.hash='req';});
+  $('#rqSubmit').addEventListener('click',async()=>{
+    const err=$('#rqErr');err.classList.remove('on');
+    const lines=NEWREQ.lines.filter(l=>l.itemId&&num(l.quantity)>0).map(l=>({itemId:l.itemId,quantity:num(l.quantity),rate:num(l.rate),departmentId:l.departmentId||''}));
+    if(!lines.length){err.textContent='Add at least one item with a quantity.';err.classList.add('on');return;}
+    const header={subsidiaryId:$('#rqSub')?$('#rqSub').value:'',tranDate:$('#rqDate').value,departmentId:$('#rqDept')?$('#rqDept').value:'',locationId:$('#rqLoc')?$('#rqLoc').value:'',memo:$('#rqMemo').value,employeeId:String(SESSION.employeeId||'')};
+    const btn=$('#rqSubmit');btn.disabled=true;btn.textContent='Submitting\u2026';
+    try{await api('CREATE_REQUISITION_PORTAL',withActor({header,lines}));toast('Requisition submitted',true);location.hash='req';}
+    catch(e){err.textContent=e.message||'Could not create the requisition.';err.classList.add('on');btn.disabled=false;btn.textContent='Submit requisition';}
+  });
+};
+
+/* ---------- Payment Requests (list reuses vendor bills) + create with modes/part-pay ---------- */
+VIEWS.payreq=listView({action:'GET_VENDOR_BILLS_LIST',pick:d=>d&&d.bills,filters:['All','Open','Overdue','Paid'],
+  actions:[{label:'Employee refund',cls:'btn-ghost',onClick:()=>{location.hash='refund';}},
+           {label:'New payment request',cls:'btn-primary',onClick:()=>{location.hash='newpayreq';}}],
+  cols:[{h:'Reference'},{h:'Vendor'},{h:'Bill date'},{h:'Due'},{h:'Status'},{h:'Amount',num:true}],
+  row:b=>[`<div class="id">${esc(b.tranId)}</div>`,esc(b.vendorName),fdate(b.dateISO||b.date),b.dueDate?esc(b.dueDate):'\u2014',badge(b.status),`<span class="amt">${money(b.amount)}</span>`],
+  onRow:b=>openGeneric('Payment request / bill',b.tranId,[['Vendor',esc(b.vendorName)],['Bill date',fdate(b.dateISO||b.date)],['Due date',b.dueDate?esc(b.dueDate):'\u2014'],['Status',badge(b.status)],['Amount',`<span class="amt">${money2(b.amount)}</span>`]]),
+  empty:'Payment requests create the AP invoice (vendor bill) and appear here.'});
+
+const NEWPR={boot:null,mode:'standalone',lines:[]};
+VIEWS.newpayreq=async function(){
+  const view=$('#view');view.innerHTML=skKpis();
+  let boot;try{boot=await api('GET_VENDOR_BILL_CREATE_BOOTSTRAP',withActor({}));}catch(e){view.innerHTML=connState(e);return;}
+  NEWPR.boot=boot;NEWPR.lines=[];NEWPR.mode='standalone';
+  const pos=boot.purchaseOrders||[],vendors=boot.vendors||[],depts=boot.departments||[],locs=boot.locations||[],currencies=boot.currencies||[],accounts=boot.expenseAccounts||[],items=boot.items||[];
+  const today=new Date().toISOString().slice(0,10);
+  view.innerHTML=PO_CSS+`
+  <div class="po-form">
+    <div class="seg" style="margin-bottom:16px" id="prMode"><button data-m="standalone" class="on">Without PO</button><button data-m="po">Against a PO</button></div>
+    <div class="po-card"><div class="hd"><h3>Payment request</h3><span style="margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--ink-3)">NEW \u00b7 PAYMENT REQUEST</span></div>
+      <div class="bd pf"><div class="po-grid">
+        <div id="prVendorWrap"><label>Vendor<span class="req">*</span></label><select id="prVendor">${optList(vendors)}</select></div>
+        <div id="prPoWrap" style="display:none"><label>Purchase order<span class="req">*</span></label><select id="prPo">${optList(pos.map(p=>({value:p.id,text:(p.tranId||('PO '+p.id))+(p.vendorName?' \u2014 '+p.vendorName:'')})))}</select></div>
+        <div><label>Reference No. (supplier invoice #)<span class="req">*</span></label><input type="text" id="prRef" placeholder="INV-\u2026"></div>
+        <div><label>Payment mode</label><select id="prPayMode"><option value="bank">Bank transfer</option><option value="petty_cash">Petty cash</option><option value="credit_card">Credit card</option><option value="direct_debit">Direct debit</option></select></div>
+        <div><label>Invoice date</label><input type="date" id="prBillDate" value="${today}"></div>
+        <div><label>Due date</label><input type="date" id="prDue"></div>
+        <div class="blankonly"><label>Currency</label><select id="prCur">${optList(currencies)}</select></div>
+        <div class="blankonly"><label>Department</label><select id="prDept">${optList(depts)}</select></div>
+        <div class="full"><label>Memo</label><textarea id="prMemo" rows="2"></textarea></div>
+      </div>
+      <div id="prDD" style="display:none;margin-top:8px"><div class="po-grid">
+        <div><label>DD invoice no.</label><input type="text" id="prDDNo"></div>
+        <div><label>DD invoice date</label><input type="date" id="prDDDate"></div>
+        <div><label>DD amount</label><input type="number" id="prDDAmt" min="0" step="0.01" value="0"></div>
+      </div></div>
+      <div style="margin-top:10px;display:flex;align-items:center;gap:10px">
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink-2)"><input type="checkbox" id="prPart"> Part payment (advance)</label>
+        <input type="number" id="prPartAmt" min="0" step="0.01" placeholder="Amount to pay now" style="width:200px;display:none;padding:9px 11px;border:1px solid var(--hair);border-radius:10px">
+      </div>
+      </div>
+    </div>
+    <div class="po-card blankonly" id="prLinesCard"><div class="hd"><h3>Expenses &amp; items</h3></div>
+      <div class="bd" style="padding:0"><table class="litable"><thead><tr><th style="width:12%">Type</th><th style="width:30%">Item / Account</th><th class="num" style="width:10%">Qty</th><th class="num" style="width:14%">Rate</th><th class="num" style="width:16%">Amount</th><th style="width:16%">Department</th><th style="width:40px"></th></tr></thead><tbody id="prLines"></tbody></table>
+      <div style="padding:12px 16px"><button class="addline" id="prAdd"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M12 5v14M5 12h14"/></svg>Add line</button></div></div>
+      <div class="po-foot"><div class="po-total"><div class="l">Invoice total</div><div class="v" id="prTotal">${money2(0)}</div></div></div>
+    </div>
+    <div id="prPoSummary" style="display:none"></div>
+    <div class="login-err" id="prErr"></div>
+    <div style="display:flex;gap:10px"><button class="btn btn-brass" id="prSubmit">Submit payment request</button><button class="btn btn-ghost" id="prCancel">Cancel</button></div>
+  </div>`;
+  function setMode(m){NEWPR.mode=m;$$('#prMode button').forEach(b=>b.classList.toggle('on',b.dataset.m===m));
+    $('#prVendorWrap').style.display=m==='standalone'?'':'none';$('#prPoWrap').style.display=m==='po'?'':'none';
+    $('#prLinesCard').style.display=m==='standalone'?'':'none';$('#prPoSummary').style.display=m==='po'?'':'none';
+    $$('.blankonly').forEach(n=>n.style.display=m==='standalone'?'':'none');}
+  $('#prMode').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(b)setMode(b.dataset.m);});
+  $('#prPayMode').addEventListener('change',()=>{$('#prDD').style.display=$('#prPayMode').value==='direct_debit'?'':'none';});
+  $('#prPart').addEventListener('change',()=>{$('#prPartAmt').style.display=$('#prPart').checked?'':'none';});
+  $('#prPo').addEventListener('change',()=>{const p=pos.find(x=>String(x.id)===String($('#prPo').value));$('#prPoSummary').innerHTML=p?`<div class="lineitem"><div class="r1"><b>${esc(p.tranId)}</b><span class="amt">${money2(p.amount)}</span></div><div class="r2"><span>${esc(p.vendorName||'')}</span><span>Billable lines pulled from this PO</span></div></div>`:'';});
+  // line grid (item/expense) — same pattern as vendor bill
+  const linesEl=$('#prLines');
+  function itemOpts(){return optList(items.map(i=>({value:i.value,text:i.displayName?`${i.text} \u2014 ${i.displayName}`:i.text})));}
+  function acctOpts(){return optList(accounts);}
+  function total(){$('#prTotal').textContent=money2(NEWPR.lines.reduce((s,l)=>s+num(l.amount),0));}
+  function addLine(){
+    const id='P'+Math.random().toString(36).slice(2,8);const L={key:id,type:'item',itemId:'',accountId:'',quantity:1,rate:0,amount:0,departmentId:''};NEWPR.lines.push(L);
+    const tr=el(`<tr data-k="${id}"><td><select class="pl-type"><option value="item">Item</option><option value="expense">Expense</option></select></td><td><select class="pl-src">${itemOpts()}</select></td><td class="num"><input class="num pl-q" type="number" min="0" value="1"></td><td class="num"><input class="num pl-r" type="number" min="0" step="0.01" value="0"></td><td class="num"><input class="num pl-am" type="number" min="0" step="0.01" value="0" style="display:none"><span class="amt pl-amd">${money2(0)}</span></td><td><select class="pl-d">${optList(depts)}</select></td><td><button class="del"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></td></tr>`);
+    linesEl.appendChild(tr);
+    const ty=tr.querySelector('.pl-type'),src=tr.querySelector('.pl-src'),q=tr.querySelector('.pl-q'),rt=tr.querySelector('.pl-r'),am=tr.querySelector('.pl-am'),amd=tr.querySelector('.pl-amd'),d=tr.querySelector('.pl-d');
+    function rc(){if(L.type==='item'){L.quantity=num(q.value);L.rate=num(rt.value);L.amount=L.quantity*L.rate;}else{L.amount=num(am.value);}amd.textContent=money2(L.amount);total();}
+    ty.addEventListener('change',()=>{L.type=ty.value;if(L.type==='item'){src.innerHTML=itemOpts();q.parentElement.style.visibility='';rt.parentElement.style.visibility='';am.style.display='none';amd.style.display='';L.accountId='';}else{src.innerHTML=acctOpts();q.parentElement.style.visibility='hidden';rt.parentElement.style.visibility='hidden';am.style.display='';amd.style.display='none';L.itemId='';}L.amount=0;rc();});
+    src.addEventListener('change',()=>{if(L.type==='item'){L.itemId=src.value;const m=items.find(x=>String(x.value)===String(src.value));if(m){if(m.purchaseRate)rt.value=m.purchaseRate;if(m.departmentId){d.value=m.departmentId;L.departmentId=m.departmentId;}}}else{L.accountId=src.value;}rc();});
+    q.addEventListener('input',rc);rt.addEventListener('input',rc);am.addEventListener('input',rc);d.addEventListener('change',()=>L.departmentId=d.value);
+    tr.querySelector('.del').addEventListener('click',()=>{NEWPR.lines=NEWPR.lines.filter(x=>x.key!==id);tr.remove();total();});
+  }
+  $('#prAdd').addEventListener('click',addLine);addLine();
+  $('#prCancel').addEventListener('click',()=>{location.hash='payreq';});
+  $('#prSubmit').addEventListener('click',async()=>{
+    const err=$('#prErr');err.classList.remove('on');
+    const ref=$('#prRef').value.trim();if(!ref){err.textContent='Reference No. (supplier invoice number) is required.';err.classList.add('on');return;}
+    const payMode=$('#prPayMode').value;
+    const common={referenceNo:ref,billDate:$('#prBillDate').value,dueDate:$('#prDue').value,memo:$('#prMemo').value,paymentMode:payMode};
+    if(payMode==='direct_debit')common.directDebit={invoiceNo:$('#prDDNo').value,invoiceDate:$('#prDDDate').value,amount:num($('#prDDAmt').value)};
+    if($('#prPart').checked)common.partPayment={isPartial:true,amount:num($('#prPartAmt').value)};
+    let payload;
+    if(NEWPR.mode==='po'){const poId=$('#prPo').value;if(!poId){err.textContent='Select a purchase order.';err.classList.add('on');return;}payload=Object.assign({mode:'po',poId},common);}
+    else{const vendorId=$('#prVendor').value;if(!vendorId){err.textContent='Select a vendor.';err.classList.add('on');return;}
+      const lines=NEWPR.lines.filter(l=>(l.type==='item'?l.itemId:l.accountId)&&num(l.amount)!==0).map(l=>l.type==='item'?{itemId:l.itemId,quantity:num(l.quantity),rate:num(l.rate),departmentId:l.departmentId||''}:{accountId:l.accountId,amount:num(l.amount),departmentId:l.departmentId||''});
+      if(!lines.length){err.textContent='Add at least one line with an amount.';err.classList.add('on');return;}
+      payload=Object.assign({mode:'standalone',vendorId,currencyId:$('#prCur')?$('#prCur').value:'',departmentId:$('#prDept')?$('#prDept').value:'',lines},common);}
+    const btn=$('#prSubmit');btn.disabled=true;btn.textContent='Submitting\u2026';
+    try{await api('CREATE_PAYMENT_REQUEST_PORTAL',withActor(payload));toast('Payment request submitted',true);location.hash='payreq';}
+    catch(e){err.textContent=e.message||'Could not create the payment request.';err.classList.add('on');btn.disabled=false;btn.textContent='Submit payment request';}
+  });
+};
+
+/* ---------- Employee Refund ---------- */
+const NEWREF={boot:null,lines:[]};
+VIEWS.refund=async function(){
+  const view=$('#view');view.innerHTML=skKpis();
+  let boot;try{boot=await api('GET_EXPENSE_REPORT_CREATE_BOOTSTRAP',withActor({}));}catch(e){view.innerHTML=connState(e);return;}
+  NEWREF.boot=boot;NEWREF.lines=[];
+  const employees=boot.employees||[],depts=boot.departments||[],currencies=boot.currencies||[],cats=boot.categories||[];
+  const today=new Date().toISOString().slice(0,10);const defEmp=String(SESSION.employeeId||'');
+  view.innerHTML=PO_CSS+`
+  <div class="po-form">
+    <div class="po-card"><div class="hd"><h3>Employee refund request</h3><span style="margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--ink-3)">OUT-OF-POCKET</span></div>
+      <div class="bd pf"><div class="po-grid">
+        <div><label>Employee<span class="req">*</span></label><select id="rfEmp">${optList(employees)}</select></div>
+        <div><label>Date</label><input type="date" id="rfDate" value="${today}"></div>
+        <div><label>Currency</label><select id="rfCur">${optList(currencies)}</select></div>
+        <div><label>Department</label><select id="rfDept">${optList(depts)}</select></div>
+        <div class="full"><label>Reason</label><textarea id="rfMemo" rows="2" placeholder="What was purchased out-of-pocket?"></textarea></div>
+      </div></div>
+    </div>
+    <div class="po-card"><div class="hd"><h3>Expenses to reimburse</h3></div>
+      <div class="bd" style="padding:0"><table class="litable"><thead><tr><th style="width:34%">Category</th><th style="width:18%">Date</th><th class="num" style="width:18%">Amount</th><th style="width:22%">Department</th><th style="width:40px"></th></tr></thead><tbody id="rfLines"></tbody></table>
+      <div style="padding:12px 16px"><button class="addline" id="rfAdd"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M12 5v14M5 12h14"/></svg>Add expense</button></div></div>
+      <div class="po-foot"><div class="po-total"><div class="l">Total refund</div><div class="v" id="rfTotal">${money2(0)}</div></div></div>
+    </div>
+    <div class="login-err" id="rfErr"></div>
+    <div style="display:flex;gap:10px"><button class="btn btn-brass" id="rfSubmit">Submit refund request</button><button class="btn btn-ghost" id="rfCancel">Cancel</button></div>
+  </div>`;
+  if(defEmp){try{$('#rfEmp').value=defEmp;}catch(_){}}
+  const linesEl=$('#rfLines');
+  function total(){$('#rfTotal').textContent=money2(NEWREF.lines.reduce((s,l)=>s+num(l.amount),0));}
+  function addLine(){
+    const id='F'+Math.random().toString(36).slice(2,8);const L={key:id,categoryId:'',amount:0,expenseDate:$('#rfDate').value,departmentId:$('#rfDept')?$('#rfDept').value:''};NEWREF.lines.push(L);
+    const tr=el(`<tr data-k="${id}"><td><select class="rf-c">${optList(cats)}</select></td><td><input type="date" class="rf-dt" value="${L.expenseDate}"></td><td class="num"><input class="num rf-a" type="number" min="0" step="0.01" value="0"></td><td><select class="rf-d">${optList(depts)}</select></td><td><button class="del"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></td></tr>`);
+    linesEl.appendChild(tr);
+    tr.querySelector('.rf-c').addEventListener('change',e=>L.categoryId=e.target.value);
+    tr.querySelector('.rf-dt').addEventListener('input',e=>L.expenseDate=e.target.value);
+    tr.querySelector('.rf-a').addEventListener('input',e=>{L.amount=num(e.target.value);total();});
+    tr.querySelector('.rf-d').addEventListener('change',e=>L.departmentId=e.target.value);
+    tr.querySelector('.del').addEventListener('click',()=>{NEWREF.lines=NEWREF.lines.filter(x=>x.key!==id);tr.remove();total();});
+  }
+  $('#rfAdd').addEventListener('click',addLine);addLine();
+  $('#rfCancel').addEventListener('click',()=>{location.hash='payreq';});
+  $('#rfSubmit').addEventListener('click',async()=>{
+    const err=$('#rfErr');err.classList.remove('on');const employeeId=$('#rfEmp').value;
+    if(!employeeId){err.textContent='Select an employee.';err.classList.add('on');return;}
+    const lines=NEWREF.lines.filter(l=>l.categoryId&&num(l.amount)>0).map(l=>({categoryId:l.categoryId,amount:num(l.amount),expenseDate:l.expenseDate,departmentId:l.departmentId||''}));
+    if(!lines.length){err.textContent='Add at least one expense with a category and amount.';err.classList.add('on');return;}
+    const header={employeeId,departmentId:$('#rfDept')?$('#rfDept').value:'',currencyId:$('#rfCur')?$('#rfCur').value:'',tranDate:$('#rfDate').value,memo:$('#rfMemo').value};
+    const btn=$('#rfSubmit');btn.disabled=true;btn.textContent='Submitting\u2026';
+    try{await api('CREATE_EMPLOYEE_REFUND_PORTAL',withActor({header,lines}));toast('Refund request submitted',true);location.hash='payreq';}
+    catch(e){err.textContent=e.message||'Could not submit the refund request.';err.classList.add('on');btn.disabled=false;btn.textContent='Submit refund request';}
+  });
+};
+
+/* ---------- Vendors (onboarding request) ---------- */
+VIEWS.vendor=async function(){
+  const view=$('#view');view.innerHTML=skKpis();
+  let boot;try{boot=await api('GET_VENDOR_ONBOARDING_BOOTSTRAP',withActor({}));}catch(e){view.innerHTML=connState(e);return;}
+  const subs=boot.subsidiaries||[],currencies=boot.currencies||[],categories=boot.categories||[],terms=boot.terms||[],tds=boot.tdsCodes||[];
+  const showSub=(subs||[]).length>1;
+  view.innerHTML=PO_CSS+`
+  <div class="po-form">
+    <div class="po-card"><div class="hd"><h3>Request a new vendor</h3><span style="margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--ink-3)">FOR FINANCE APPROVAL</span></div>
+      <div class="bd pf"><div class="po-grid">
+        <div><label>Company name<span class="req">*</span></label><input type="text" id="vnName"></div>
+        <div><label>Email</label><input type="email" id="vnEmail"></div>
+        <div><label>Phone</label><input type="text" id="vnPhone"></div>
+        ${showSub?`<div><label>Subsidiary</label><select id="vnSub">${optList(subs)}</select></div>`:''}
+        <div><label>Currency</label><select id="vnCur">${optList(currencies)}</select></div>
+        <div><label>Category</label><select id="vnCat">${optList(categories)}</select></div>
+        <div><label>Payment terms</label><select id="vnTerms">${optList(terms)}</select></div>
+        <div><label>BRN / tax number</label><input type="text" id="vnBRN"></div>
+      </div></div>
+    </div>
+    <div class="po-card"><div class="hd"><h3>Bank details</h3></div>
+      <div class="bd pf"><div class="po-grid">
+        <div><label>Bank name</label><input type="text" id="vnBank"></div>
+        <div><label>Account number</label><input type="text" id="vnAcct"></div>
+        <div><label>SWIFT / BIC</label><input type="text" id="vnSwift"></div>
+        <div class="full"><label>Intermediary bank details</label><textarea id="vnInter" rows="2"></textarea></div>
+      </div></div>
+    </div>
+    <div class="po-card"><div class="hd"><h3>Tax (TDS)</h3></div>
+      <div class="bd pf"><div class="po-grid">
+        <div><label style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="vnTds"> TDS applicable</label></div>
+        <div><label>TDS rate</label><select id="vnTdsRate">${optList(tds)}</select></div>
+        <div class="full"><label>Notes (e.g. contract exemption per policy)</label><textarea id="vnNotes" rows="2"></textarea></div>
+      </div>
+      <div style="margin-top:6px;color:var(--ink-3);font-size:12px">Attach the bank reference letter and BRN in NetSuite after the request is created (file upload wiring pending).</div>
+      </div>
+    </div>
+    <div class="login-err" id="vnErr"></div>
+    <div style="display:flex;gap:10px"><button class="btn btn-brass" id="vnSubmit">Send for Finance approval</button><button class="btn btn-ghost" id="vnCancel">Cancel</button></div>
+  </div>`;
+  $('#vnCancel').addEventListener('click',()=>{location.hash='overview';});
+  $('#vnSubmit').addEventListener('click',async()=>{
+    const err=$('#vnErr');err.classList.remove('on');const name=$('#vnName').value.trim();
+    if(!name){err.textContent='Company name is required.';err.classList.add('on');return;}
+    const payload={companyName:name,email:$('#vnEmail').value,phone:$('#vnPhone').value,subsidiaryId:$('#vnSub')?$('#vnSub').value:'',
+      currencyId:$('#vnCur')?$('#vnCur').value:'',categoryId:$('#vnCat')?$('#vnCat').value:'',termsId:$('#vnTerms')?$('#vnTerms').value:'',
+      taxNumber:$('#vnBRN').value,bankName:$('#vnBank').value,bankAccountNo:$('#vnAcct').value,bankSwift:$('#vnSwift').value,
+      intermediaryBank:$('#vnInter').value,tdsApplicable:$('#vnTds').checked,tdsRateId:$('#vnTdsRate')?$('#vnTdsRate').value:'',notes:$('#vnNotes').value};
+    const btn=$('#vnSubmit');btn.disabled=true;btn.textContent='Sending\u2026';
+    try{await api('CREATE_VENDOR_REQUEST_PORTAL',withActor(payload));toast('Vendor request sent for approval',true);location.hash='overview';}
+    catch(e){err.textContent=e.message||'Could not create the vendor request.';err.classList.add('on');btn.disabled=false;btn.textContent='Send for Finance approval';}
+  });
+};
+
+/* ---------- Contracts (register) ---------- */
+VIEWS.contract=listView({action:'GET_CONTRACTS_LIST',pick:d=>d&&d.contracts,filters:['All','Active','Expiring','Expired'],
+  actions:[{label:'New contract',cls:'btn-primary',onClick:()=>{location.hash='newcontract';}}],
+  cols:[{h:'Contract'},{h:'Vendor'},{h:'Start'},{h:'End'},{h:'Status'},{h:'Value',num:true}],
+  row:c=>[`<div class="id">${esc(c.title||c.name||('Contract '+c.id))}</div>`,esc(c.vendorName||'\u2014'),fdate(c.startDate),fdate(c.endDate),badge(c.status),`<span class="amt">${c.value?money(c.value):'\u2014'}</span>`],
+  onRow:c=>openGeneric('Contract',c.title||('Contract '+c.id),[['Vendor',esc(c.vendorName||'\u2014')],['Start',fdate(c.startDate)],['End',fdate(c.endDate)],['Status',badge(c.status)],['Value',c.value?`<span class="amt">${money2(c.value)}</span>`:'\u2014']]),
+  empty:'Register vendor contracts here; expiry alerts fire at 30/60/90 days (scheduled script).'});
+
+VIEWS.newcontract=async function(){
+  const view=$('#view');view.innerHTML=skKpis();
+  let boot;try{boot=await api('GET_CONTRACT_BOOTSTRAP',withActor({}));}catch(e){view.innerHTML=connState(e);return;}
+  const vendors=boot.vendors||[],statuses=boot.statuses||[];
+  view.innerHTML=PO_CSS+`
+  <div class="po-form"><div class="po-card"><div class="hd"><h3>New contract</h3></div>
+    <div class="bd pf"><div class="po-grid">
+      <div><label>Vendor<span class="req">*</span></label><select id="ctVendor">${optList(vendors)}</select></div>
+      <div><label>Title<span class="req">*</span></label><input type="text" id="ctTitle" placeholder="e.g. IT support 2026"></div>
+      <div><label>Start date</label><input type="date" id="ctStart"></div>
+      <div><label>End date<span class="req">*</span></label><input type="date" id="ctEnd"></div>
+      <div><label>Contract value</label><input type="number" id="ctValue" min="0" step="0.01" value="0"></div>
+      ${statuses.length?`<div><label>Status</label><select id="ctStatus">${optList(statuses)}</select></div>`:''}
+      <div class="full"><label>Notes</label><textarea id="ctNotes" rows="2"></textarea></div>
+    </div></div></div>
+    <div class="login-err" id="ctErr"></div>
+    <div style="display:flex;gap:10px"><button class="btn btn-brass" id="ctSubmit">Save contract</button><button class="btn btn-ghost" id="ctCancel">Cancel</button></div>
+  </div>`;
+  $('#ctCancel').addEventListener('click',()=>{location.hash='contract';});
+  $('#ctSubmit').addEventListener('click',async()=>{
+    const err=$('#ctErr');err.classList.remove('on');
+    const vendorId=$('#ctVendor').value,title=$('#ctTitle').value.trim(),end=$('#ctEnd').value;
+    if(!vendorId||!title||!end){err.textContent='Vendor, title and end date are required.';err.classList.add('on');return;}
+    const payload={vendorId,title,startDate:$('#ctStart').value,endDate:end,value:num($('#ctValue').value),statusId:$('#ctStatus')?$('#ctStatus').value:'',notes:$('#ctNotes').value};
+    const btn=$('#ctSubmit');btn.disabled=true;btn.textContent='Saving\u2026';
+    try{await api('CREATE_CONTRACT_PORTAL',withActor(payload));toast('Contract saved',true);location.hash='contract';}
+    catch(e){err.textContent=e.message||'Could not save the contract.';err.classList.add('on');btn.disabled=false;btn.textContent='Save contract';}
+  });
+};
+
+/* ---------- toast ---------- */
+function toast(msg,ok){const t=el(`<div class="toast ${ok?'ok':''}"><span class="d"></span>${esc(msg)}</div>`);$('#toasts').appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(()=>t.remove(),300);},2600);}
+
+/* ============================================================ Boot / login ============================================================ */
+function loginContour(){const m=$('#loginArt');if(!m)return;
+  let p='';for(let i=0;i<5;i++){const o=i*13;p+=`<path d="M${10+o} 110 Q ${120} ${10+o*1.2}, ${430-o} 100" fill="none" stroke="#E4C56A" stroke-opacity="${0.5-i*0.08}" stroke-width="1.4"/>`;}
+  m.innerHTML=`<svg viewBox="0 0 440 120" width="100%" preserveAspectRatio="none">${p}</svg>`;}
+
+function showLogin(msg){
+  $('#app').classList.remove('on');$('#login').style.display='grid';
+  const b=$('#loginBtn');if(b){b.textContent='Sign in';b.disabled=false;}
+  const e=$('#loginErr');if(e){if(msg){e.textContent=msg;e.classList.add('on');}else{e.classList.remove('on');}}
+}
+async function enterApp(){
+  $('#login').style.display='none';$('#app').classList.add('on');buildNav();
+  if(!location.hash)location.hash='overview';else route();
+}
+$('#loginForm').addEventListener('submit',async e=>{
+  e.preventDefault();const b=$('#loginBtn'),err=$('#loginErr');
+  err.classList.remove('on');b.disabled=true;b.textContent='Signing in\u2026';
+  try{
+    const json=await doLogin($('#email').value.trim(),$('#pw').value,$('#otp').value.trim());
+    const status=Number(json&&json.status);
+    if(status===200&&json.data){
+      const ed=json.data.employeeData;
+      if(ed)setSession({firstName:ed.firstName,lastName:ed.lastName,emailAddress:ed.emailAddress,employeeId:ed.employeeId,internalId:ed.employeeId,roleId:ed.roleId});
+      try{await checkSession();}catch(_){}
+      enterApp();return;
+    }
+    // OTP / 2FA branches
+    if(json&&json.data&&(json.data.requiresFirstTimeSetup||json.data.requiresOtp||/otp|authenticat(or|ion) code|2fa|verification/i.test(String(json.message||'')))){
+      $('#otpField').style.display='';$('#otp').focus();
+      err.textContent=json.message||'Enter the authentication code from your authenticator app.';err.classList.add('on');
+      b.disabled=false;b.textContent='Verify & sign in';return;
+    }
+    err.textContent=(json&&json.message)||'Sign in failed. Check your details and try again.';err.classList.add('on');
+    b.disabled=false;b.textContent='Sign in';
+  }catch(ex){err.textContent=ex.message||'Couldn\u2019t reach the portal.';err.classList.add('on');b.disabled=false;b.textContent='Sign in';}
+});
+$('#logout').addEventListener('click',async()=>{try{await rawPost({action:'LOGOUT',payload:{}});}catch(_){}SESSION.user=null;showLogin();});
+$('#newPoTop').addEventListener('click',()=>{location.hash='newpo';});
+window.addEventListener('hashchange',route);
+window.addEventListener('resize',()=>{if($('#app').classList.contains('on')&&location.hash==='#overview'){const m=$('#meridian');if(m&&VIEWS.overview){/* redraw handled on next route */}}});
+
+/* On load: check for an existing NetSuite session; if present, skip login. */
+(async function init(){
+  loginContour();
+  try{const ok=await checkSession();if(ok){enterApp();return;}}catch(_){}
+  showLogin();
+})();
+</script>
+</body>
+</html>
